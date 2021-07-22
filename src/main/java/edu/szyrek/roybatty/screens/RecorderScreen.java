@@ -91,11 +91,11 @@ public class RecorderScreen extends JPanel
     {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        JLabel lblPresssTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBattyConfig.getConfig().getRecordButton()) + "\" to start/stop recording.");
+        JLabel lblPresssTo = new JLabel("Press \"" + RoyBattyConfig.getConfig().getRecordButton() + "\" to start/stop recording.");
         lblPresssTo.setSize(400, 16);
         infoPanel.add(lblPresssTo);
 
-        JLabel lblPressdTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBattyConfig.getConfig().getPlayButton()) + "\" to start/stop replaying.");
+        JLabel lblPressdTo = new JLabel("Press \"" + RoyBattyConfig.getConfig().getPlayButton() + "\" to start/stop replaying.");
         lblPressdTo.setSize(400, 16);
         infoPanel.add(lblPressdTo);
 
@@ -127,16 +127,8 @@ public class RecorderScreen extends JPanel
     public RecorderScreen()
     {
         craeteGUI();
-        Set<Integer> recordCodes = new HashSet<>();
-        recordCodes.add(RoyBattyConfig.getConfig().getRecordButton());
-        Hotkey recordHotkey = new Hotkey(recordCodes);
-
-        Set<Integer> playCodes = new HashSet<>();
-        playCodes.add(RoyBattyConfig.getConfig().getPlayButton());
-        Hotkey playHotkey = new Hotkey(playCodes);
-
-        RoyBatty.getAssignments().assign(recordHotkey, () -> recStopAction());
-        RoyBatty.getAssignments().assign(playHotkey, () -> playStopAction());
+        RoyBatty.getAssignments().assign(new Hotkey(RoyBattyConfig.getConfig().getRecordButton()), () -> recStopAction());
+        RoyBatty.getAssignments().assign(new Hotkey(RoyBattyConfig.getConfig().getPlayButton()), () -> playStopAction());
     }
 
     private void recStopAction()
@@ -148,6 +140,7 @@ public class RecorderScreen extends JPanel
         }
         else
         {
+            macroPlayer = null;
             recordButton.setText(RoyBattyConfig.getConfig().getStopLabel());
             RoyBatty.getMacroRecorder().startRecording();
         }
@@ -175,6 +168,7 @@ public class RecorderScreen extends JPanel
             {
                 setMacroPlayer(macroPlayer);
                 macroPlayer.setFuture(new CompletableFuture<>());
+                RoyBatty.getAssignments().unassign(new Hotkey(RoyBattyConfig.getConfig().getRecordButton()));
                 macroPlayer.start();
                 playButton.setText(RoyBattyConfig.getConfig().getStopLabel());
             }
@@ -187,6 +181,7 @@ public class RecorderScreen extends JPanel
                 {
                     macroPlayer.getFuture().get();
                     playButton.setText(RoyBattyConfig.getConfig().getPlayLabel());
+                    RoyBatty.getAssignments().assign(new Hotkey(RoyBattyConfig.getConfig().getRecordButton()), () -> recStopAction());
                 }
                 catch (InterruptedException|ExecutionException e)
                 {

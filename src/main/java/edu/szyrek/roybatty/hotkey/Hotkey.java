@@ -1,9 +1,13 @@
 package edu.szyrek.roybatty.hotkey;
 
+import edu.szyrek.roybatty.KeyMappings;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Hotkey
 {
@@ -13,6 +17,16 @@ public class Hotkey
     public Hotkey(final Set<Integer> codes)
     {
         this.codes = codes;
+    }
+    public Hotkey(final String encoded)
+    {
+        this.codes = Arrays.stream(encoded.split("\\+")).map(e-> KeyMappings.textToJnativeCodes(e)).collect(Collectors.toSet());
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.codes.stream().map(e->KeyMappings.nativeCodesToText(e)).collect(Collectors.joining("+")).toString();
     }
 
     @Override

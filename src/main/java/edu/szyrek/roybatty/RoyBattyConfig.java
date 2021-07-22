@@ -3,6 +3,7 @@ package edu.szyrek.roybatty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import java.io.IOException;
@@ -24,10 +25,10 @@ public class RoyBattyConfig
     private int windowStartY = 100;
     @Getter
     @Setter
-    private int recordButton = NativeKeyEvent.VC_F11;
+    private String recordButton = KeyMappings.nativeCodesToText(NativeKeyEvent.VC_F11);
     @Getter
     @Setter
-    private int playButton = NativeKeyEvent.VC_F12;
+    private String playButton = KeyMappings.nativeCodesToText(NativeKeyEvent.VC_F12);
     @Getter
     @Setter
     private String fileEncoding = "UTF-8";
@@ -55,8 +56,18 @@ public class RoyBattyConfig
     @Getter
     @Setter
     private String loadLabel = "Load";
+    @Getter
+    @Setter
+    private String cancelLabel = "Cancel";
 
     private RoyBattyConfig(){}
+
+    @SneakyThrows
+    public static void reload()
+    {
+        final ObjectMapper om = new ObjectMapper();
+        Loader.instance = om.readValue(Paths.get(RoyBatty.CONFIG_PATH).toFile(), RoyBattyConfig.class);
+    }
 
     private static class Loader
     {
@@ -71,7 +82,7 @@ public class RoyBattyConfig
             }
             catch (IOException e)
             {
-                RoyBatty.logException("Error loading config from path " + RoyBatty.CONFIG_PATH + ", using default values", e);
+                RoyBatty.logError("No configuration file at path: " + RoyBatty.CONFIG_PATH + ", using default values");
                 instance = new RoyBattyConfig();
             }
         }

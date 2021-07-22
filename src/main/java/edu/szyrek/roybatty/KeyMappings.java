@@ -152,6 +152,8 @@ public class KeyMappings {
         _awtToJnativeCodes.put(KeyEvent.VK_F8, NativeKeyEvent.VC_F8);
         _awtToJnativeCodes.put(KeyEvent.VK_F9, NativeKeyEvent.VC_F9);
         _awtToJnativeCodes.put(KeyEvent.VK_F10, NativeKeyEvent.VC_F10);
+        _awtToJnativeCodes.put(KeyEvent.VK_F11, NativeKeyEvent.VC_F11);
+        _awtToJnativeCodes.put(KeyEvent.VK_F12, NativeKeyEvent.VC_F12);
 
         for (final Integer key: _awtToJnativeCodes.keySet())
         {

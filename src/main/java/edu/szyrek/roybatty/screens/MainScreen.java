@@ -26,6 +26,9 @@ public class MainScreen extends JPanel {
         final AssignmentsScreen assignmentsScreen = new AssignmentsScreen();
         tabbedPane.addTab("Hotkeys", icon, assignmentsScreen,
                 "Assign macros to hotkeys");
+        final ConfigScreen configScreen = new ConfigScreen();
+        tabbedPane.addTab("Config", icon, configScreen,
+                "Tweak configuration");
         add(tabbedPane);
 
         statusBar = createStatusBar();
