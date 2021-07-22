@@ -33,12 +33,6 @@ public class RoyBattyConfig
     private String fileEncoding = "UTF-8";
     @Getter
     @Setter
-    private String appName = "roy_batty";
-    @Getter
-    @Setter
-    private String appVer = "0.0.1";
-    @Getter
-    @Setter
     private String macrosPath = "./macros";
     @Getter
     @Setter

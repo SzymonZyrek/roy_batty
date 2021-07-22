@@ -1,6 +1,7 @@
 package edu.szyrek.roybatty.hotkey;
 
 import edu.szyrek.roybatty.KeyMappings;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.jnativehook.keyboard.NativeKeyEvent;

@@ -3,6 +3,7 @@ package edu.szyrek.roybatty.macro;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.macro.entry.*;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

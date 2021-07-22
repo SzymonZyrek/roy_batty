@@ -1,6 +1,7 @@
 package edu.szyrek.roybatty.macro.entry;
 
 import lombok.SneakyThrows;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;

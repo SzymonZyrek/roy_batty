@@ -1,6 +1,7 @@
 package edu.szyrek.roybatty.macro.entry;
 
 import lombok.SneakyThrows;
+
 import java.awt.*;
 
 public class KeyPressEntry extends KeyEntry implements MacroEntry

@@ -7,17 +7,13 @@ import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.hotkey.HotkeyListener;
 import edu.szyrek.roybatty.hotkey.MacroAssignment;
 import edu.szyrek.roybatty.macro.Macro;
+
 import lombok.Setter;
 import org.jnativehook.GlobalScreen;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyListener;
-import java.security.Key;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;

@@ -2,16 +2,13 @@ package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
-import edu.szyrek.roybatty.hotkey.Assignment;
-import edu.szyrek.roybatty.hotkey.Assignments;
 import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
+
 import lombok.Setter;
-import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
-import edu.szyrek.roybatty.recorder.Recorder;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;

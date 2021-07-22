@@ -1,8 +1,8 @@
 package edu.szyrek.roybatty.hotkey;
 
-import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
+
 import lombok.SneakyThrows;
 
 import java.util.concurrent.CompletableFuture;

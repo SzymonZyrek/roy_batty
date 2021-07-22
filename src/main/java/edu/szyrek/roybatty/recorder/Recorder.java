@@ -1,17 +1,18 @@
 package edu.szyrek.roybatty.recorder;
 
-import java.util.ArrayList;
-
 import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.*;
 import edu.szyrek.roybatty.macro.entry.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.*;
+
+import java.util.ArrayList;
 
 public class Recorder implements NativeKeyListener, NativeMouseListener, NativeMouseWheelListener, NativeMouseMotionListener {
     @Getter

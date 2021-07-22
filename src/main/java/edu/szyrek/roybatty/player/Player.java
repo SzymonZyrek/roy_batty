@@ -2,6 +2,7 @@ package edu.szyrek.roybatty.player;
 
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.macro.entry.MacroEntry;
+
 import lombok.Getter;
 import lombok.Setter;
 

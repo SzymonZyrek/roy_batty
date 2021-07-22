@@ -1,6 +1,5 @@
 package edu.szyrek.roybatty.macro.entry;
 
-import edu.szyrek.roybatty.RoyBatty;
 import lombok.SneakyThrows;
 
 import java.awt.*;

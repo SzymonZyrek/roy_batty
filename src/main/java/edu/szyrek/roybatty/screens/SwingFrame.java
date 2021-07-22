@@ -2,6 +2,7 @@ package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.GlobalScreen;

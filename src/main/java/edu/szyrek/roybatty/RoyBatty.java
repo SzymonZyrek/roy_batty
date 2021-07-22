@@ -1,15 +1,13 @@
 package edu.szyrek.roybatty;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.szyrek.roybatty.hotkey.Assignments;
 import edu.szyrek.roybatty.recorder.Recorder;
 import edu.szyrek.roybatty.screens.SwingFrame;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.jnativehook.keyboard.NativeKeyEvent;
 
-import javax.crypto.Mac;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -24,7 +22,7 @@ public class RoyBatty
 {
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
-    public final static String CONFIG_PATH = "./roy_batty.json";
+    public final static String CONFIG_PATH = "./roy_batty.json_sample";
 
     static
     {
