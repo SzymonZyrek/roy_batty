@@ -10,7 +10,20 @@ public class KeyMappings {
     private static Map<Integer,Integer> _awtToJnativeCodes = new HashMap<>();
     private static Map<Integer,Integer> _jnativeToAwtCodes = new HashMap<>();
     private static Map<String,Integer> _textToJnativeCodes = new HashMap<>();
+    private static Map<Integer,String> _nativeCodesToText = new HashMap<>();
 
+    public static String nativeCodesToText(int nativeCode)
+    {
+        if (_nativeCodesToText.containsKey(nativeCode))
+        {
+            return _nativeCodesToText.get(nativeCode);
+        }
+        else
+        {
+            RoyBatty.logError("Not mapped native key code: "+nativeCode);
+            return "";
+        }
+    }
 
     public static int awtToJnativeCodes(int awtCode)
     {
@@ -145,6 +158,7 @@ public class KeyMappings {
             Integer value = _awtToJnativeCodes.get(key);
             _jnativeToAwtCodes.put(value, key);
             _textToJnativeCodes.put(NativeKeyEvent.getKeyText(value), value);
+            _nativeCodesToText.put(value, NativeKeyEvent.getKeyText(value));
         }
     }
 }
