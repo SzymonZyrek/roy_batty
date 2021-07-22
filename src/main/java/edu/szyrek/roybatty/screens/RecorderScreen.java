@@ -11,24 +11,30 @@ import edu.szyrek.roybatty.recorder.Recorder;
 import javax.swing.*;
 import java.awt.*;
 
-public class RecorderScreen extends JPanel implements NativeKeyListener {
+public class RecorderScreen extends JPanel implements NativeKeyListener
+{
     @Setter
     private Player macroPlayer;
-    private final Recorder recorder = new Recorder(this);
+    private final Recorder recorder = new Recorder();
 
     public JButton btnStartRecording;
     public JLabel statusBar;
 
-    public RecorderScreen() {
+    public RecorderScreen()
+    {
         GlobalScreen.addNativeKeyListener(this);
         setLayout(new BorderLayout());
 
         btnStartRecording = new JButton("Start Recording");
-        btnStartRecording.addActionListener(e -> {
-            if (recorder.isRecording()) {
+        btnStartRecording.addActionListener(e ->
+        {
+            if (recorder.isRecording())
+            {
                 btnStartRecording.setText("Start Recording");
                 recorder.stopRecording();
-            } else {
+            }
+            else
+            {
                 btnStartRecording.setText("Stop Recording");
                 recorder.startRecording();
             }
@@ -41,8 +47,10 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         add(fileName);
 
         JButton btnNewButton = new JButton("Load edu.szyrek.roybatty.macro.Macro");
-        btnNewButton.addActionListener(e -> {
-            if (!recorder.isRecording()) {
+        btnNewButton.addActionListener(e ->
+        {
+            if (!recorder.isRecording())
+            {
                 recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
             }
         });
@@ -50,9 +58,12 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         add(btnNewButton);
 
         JButton btnSaveMacro = new JButton("Save edu.szyrek.roybatty.macro.Macro");
-        btnSaveMacro.addActionListener(e -> {
-            if (!recorder.isRecording()) {
-                if (recorder.getMacro() == null) {
+        btnSaveMacro.addActionListener(e ->
+        {
+            if (!recorder.isRecording())
+            {
+                if (recorder.getMacro() == null)
+                {
                     RoyBatty.logError("Record or load something first!");
                 }
                 recorder.getMacro().saveMacroFile(fileName.getText());
@@ -75,50 +86,56 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         add(lblPressdTo);
     }
 
+    @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
+    @Override public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
     @Override
-    public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
-
-    }
-
-    @Override
-    public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-
-    }
-
-    @Override
-    public void nativeKeyReleased(final NativeKeyEvent e) {
+    public void nativeKeyReleased(final NativeKeyEvent e)
+    {
         handleRecordHotkey(e);
         handlePlayHotkey(e);
     }
 
-    private void handleRecordHotkey(final NativeKeyEvent e) {
-        if (e.getKeyCode() == RoyBatty.RECORD_BUTTON && !recorder.isRecording()) {
+    private void handleRecordHotkey(final NativeKeyEvent e)
+    {
+        if (e.getKeyCode() == RoyBatty.RECORD_BUTTON && !recorder.isRecording())
+        {
             btnStartRecording.setText("Stop Recording");
             recorder.startRecording();
-        } else if (e.getKeyCode() == RoyBatty.RECORD_BUTTON) {
+        }
+        else if (e.getKeyCode() == RoyBatty.RECORD_BUTTON)
+        {
             btnStartRecording.setText("Start Recording");
             recorder.stopRecording();
         }
     }
 
-    private void handlePlayHotkey(final NativeKeyEvent e) {
-        if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && recorder.isRecording()) {
+    private void handlePlayHotkey(final NativeKeyEvent e)
+    {
+        if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && recorder.isRecording())
+        {
             RoyBatty.logError("Stop recording first!");
-        } else if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && !recorder.isRecording()) {
-            if (macroPlayer != null) {
-                macroPlayer.running = !macroPlayer.running;
+        }
+        else if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && !recorder.isRecording())
+        {
+            if (macroPlayer != null)
+            {
+                macroPlayer.setRunning(!macroPlayer.isRunning());
             }
-            if (macroPlayer == null || macroPlayer.running) {
-                if (recorder.getMacro() == null) {
+            if (macroPlayer == null || macroPlayer.isRunning())
+            {
+                if (recorder.getMacro() == null)
+                {
                     RoyBatty.logError("Record or load something first!");
                 }
                 macroPlayer = new Player(recorder.getMacro());
-                macroPlayer.running = true;
+                macroPlayer.setRunning(true);
                 Thread t1 = new Thread(macroPlayer, "T1");
                 setMacroPlayer(macroPlayer);
                 t1.start();
-            } else {
-                macroPlayer.stop();
+            }
+            else
+            {
+                macroPlayer.setRunning(false);
             }
         }
     }

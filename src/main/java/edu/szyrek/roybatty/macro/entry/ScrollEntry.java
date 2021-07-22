@@ -1,17 +1,13 @@
 package edu.szyrek.roybatty.macro.entry;
 
-import edu.szyrek.roybatty.RoyBatty;
-
+import lombok.SneakyThrows;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScrollEntry extends BaseEntry implements MacroEntry {
+public class ScrollEntry extends BaseEntry implements MacroEntry
+{
     private int amount;
-
-    protected char getLetter() {
-        return 'S';
-    }
 
     public ScrollEntry(int amount, int time)
     {
@@ -19,12 +15,8 @@ public class ScrollEntry extends BaseEntry implements MacroEntry {
         this.amount = amount;
     }
 
-    @Override
-    public String writeAsString() {
-        return super.writeAsString() + " " + this.amount + " " + this.time;
-    }
-
-    public ScrollEntry(final String fromString) {
+    public ScrollEntry(final String fromString)
+    {
         super(0);
         if (!fromString.startsWith(this.getLetter() + " "))
         {
@@ -43,13 +35,21 @@ public class ScrollEntry extends BaseEntry implements MacroEntry {
     }
 
     @Override
-    public void performEntry(Robot bot) {
-        try {
-            Thread.sleep(this.time);
-        } catch (InterruptedException e) {
-            RoyBatty.logError(e.getMessage());
-            e.printStackTrace();
-        }
+    protected char getLetter() {
+        return 'S';
+    }
+
+    @Override
+    public String writeAsString()
+    {
+        return super.writeAsString() + " " + this.amount + " " + this.time;
+    }
+
+    @Override
+    @SneakyThrows
+    public void performEntry(final Robot bot)
+    {
+        Thread.sleep(this.time);
         bot.mouseWheel(this.amount);
     }
 }

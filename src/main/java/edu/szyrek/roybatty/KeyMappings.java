@@ -6,29 +6,38 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Keys {
+public class KeyMappings {
     private static Map<Integer,Integer> _awtToJnativeCodes = new HashMap<>();
     private static Map<Integer,Integer> _jnativeToAwtCodes = new HashMap<>();
 
-    public static int awtToJnativeCodes(int awtCode) {
-        if (_awtToJnativeCodes.containsKey(awtCode)) {
+    public static int awtToJnativeCodes(int awtCode)
+    {
+        if (_awtToJnativeCodes.containsKey(awtCode))
+        {
             return _awtToJnativeCodes.get(awtCode);
-        } else {
+        }
+        else
+        {
             RoyBatty.logError("Not mapped key code: "+awtCode);
             return -1;
         }
     }
 
-    public static int jnativeToAwtCodes(int awtCode) {
-        if (_jnativeToAwtCodes.containsKey(awtCode)) {
+    public static int jnativeToAwtCodes(int awtCode)
+    {
+        if (_jnativeToAwtCodes.containsKey(awtCode))
+        {
             return _jnativeToAwtCodes.get(awtCode);
-        } else {
+        }
+        else
+        {
             RoyBatty.logError("Not mapped key code: "+awtCode);
             return -1;
         }
     }
 
-    static {
+    static
+    {
         _awtToJnativeCodes.put(KeyEvent.VK_SPACE, NativeKeyEvent.VC_SPACE);
         _awtToJnativeCodes.put(KeyEvent.VK_ENTER, NativeKeyEvent.VC_ENTER);
         _awtToJnativeCodes.put(KeyEvent.VK_BACK_SPACE, NativeKeyEvent.VC_BACKSPACE);
@@ -66,8 +75,6 @@ public class Keys {
         _awtToJnativeCodes.put(KeyEvent.VK_ALT, NativeKeyEvent.VC_ALT);
         _awtToJnativeCodes.put(KeyEvent.VK_CONTROL, NativeKeyEvent.VC_CONTROL);
         _awtToJnativeCodes.put(KeyEvent.VK_INSERT, NativeKeyEvent.VC_INSERT);
-
-
 
         _awtToJnativeCodes.put(KeyEvent.VK_0, NativeKeyEvent.VC_0);
         _awtToJnativeCodes.put(KeyEvent.VK_1, NativeKeyEvent.VC_1);
@@ -118,7 +125,8 @@ public class Keys {
         _awtToJnativeCodes.put(KeyEvent.VK_F9, NativeKeyEvent.VC_F9);
         _awtToJnativeCodes.put(KeyEvent.VK_F10, NativeKeyEvent.VC_F10);
 
-        for (final Integer key: _awtToJnativeCodes.keySet()) {
+        for (final Integer key: _awtToJnativeCodes.keySet())
+        {
             Integer value = _awtToJnativeCodes.get(key);
             _jnativeToAwtCodes.put(value, key);
         }

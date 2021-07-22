@@ -12,12 +12,8 @@ public abstract class KeyEntry extends BaseEntry implements MacroEntry {
         this.key = key;
     }
 
-    @Override
-    public String writeAsString() {
-        return super.writeAsString() + " " + this.key + " " + this.time;
-    }
-
-    public KeyEntry(final String fromString) {
+    public KeyEntry(final String fromString)
+    {
         super(0);
         if (!fromString.startsWith(this.getLetter() + " "))
         {
@@ -35,8 +31,9 @@ public abstract class KeyEntry extends BaseEntry implements MacroEntry {
         this.time = Integer.parseInt(values.get(1));
     }
 
-    public int getKey()
+    @Override
+    public String writeAsString()
     {
-        return key;
+        return super.writeAsString() + " " + this.key + " " + this.time;
     }
 }

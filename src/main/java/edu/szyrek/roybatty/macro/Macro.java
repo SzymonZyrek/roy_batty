@@ -2,6 +2,7 @@ package edu.szyrek.roybatty.macro;
 
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.entry.*;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 @Slf4j
 public class Macro {
+    @Getter
     private ArrayList<MacroEntry> entries;
 
     public Macro(final ArrayList<MacroEntry> entries)
@@ -16,27 +18,37 @@ public class Macro {
         this.entries = entries;
     }
 
-    public void printMacro() {
-        for (final MacroEntry entry: entries) {
+    public void printMacro()
+    {
+        for (final MacroEntry entry: entries)
+        {
             log.error(entry.writeAsString());
         }
     }
 
-    public void saveMacroFile(final String filePath) {
-        try (PrintWriter pointsWriter = new PrintWriter(filePath, RoyBatty.FILE_ENCODING)) {
-            for (final MacroEntry entry: entries) {
+    public void saveMacroFile(final String filePath)
+    {
+        try (final PrintWriter pointsWriter = new PrintWriter(filePath, RoyBatty.FILE_ENCODING))
+        {
+            for (final MacroEntry entry: entries)
+            {
                 pointsWriter.println(entry.writeAsString());
             }
-        } catch (FileNotFoundException | UnsupportedEncodingException e1) {
-            e1.printStackTrace();
+        }
+        catch (FileNotFoundException | UnsupportedEncodingException ex)
+        {
+            RoyBatty.logException("Error saving macro at path: "+filePath, ex);
         }
     }
 
-    public static Macro loadMacroFile(final String filePath) {
-        ArrayList<MacroEntry> entries = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+    public static Macro loadMacroFile(final String filePath)
+    {
+        final ArrayList<MacroEntry> entries = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath)))
+        {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null)
+            {
                 switch (line.charAt(0))
                 {
                     case 'M':
@@ -71,15 +83,15 @@ public class Macro {
             newMacro.printMacro();
             RoyBatty.logInfo("MACRO FROM FILE: "+filePath);
             return newMacro;
-        } catch (FileNotFoundException ex) {
-            RoyBatty.logError("Unable to open macro file at path: " + filePath);
-        } catch (IOException ex) {
-            RoyBatty.logError("Error reading macro file at path: " + filePath);
+        }
+        catch (FileNotFoundException ex)
+        {
+            RoyBatty.logException("Unable to open macro file at path: " + filePath, ex);
+        }
+        catch (IOException ex)
+        {
+            RoyBatty.logException("Error reading macro file at path: " + filePath, ex);
         }
         return null;
-    }
-
-    public ArrayList<MacroEntry> getEntries() {
-        return this.entries;
     }
 }

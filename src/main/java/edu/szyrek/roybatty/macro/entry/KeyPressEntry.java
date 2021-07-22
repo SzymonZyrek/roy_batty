@@ -1,30 +1,30 @@
 package edu.szyrek.roybatty.macro.entry;
 
-import edu.szyrek.roybatty.RoyBatty;
-
+import lombok.SneakyThrows;
 import java.awt.*;
 
-public class KeyPressEntry extends KeyEntry implements MacroEntry {
-    public KeyPressEntry(int key, int time) {
+public class KeyPressEntry extends KeyEntry implements MacroEntry
+{
+    public KeyPressEntry(int key, int time)
+    {
         super(key, time);
     }
 
-    public KeyPressEntry(String string) {
+    public KeyPressEntry(String string)
+    {
         super(string);
     }
 
-    protected char getLetter() {
+    protected char getLetter()
+    {
         return 'K';
     }
 
     @Override
-    public void performEntry(final Robot bot) {
-        try {
-            Thread.sleep(this.time);
-        } catch (InterruptedException e) {
-            RoyBatty.logError(e.getMessage());
-            e.printStackTrace();
-        }
+    @SneakyThrows
+    public void performEntry(final Robot bot)
+    {
+        Thread.sleep(this.time);
         bot.keyPress(key);
     }
 }
