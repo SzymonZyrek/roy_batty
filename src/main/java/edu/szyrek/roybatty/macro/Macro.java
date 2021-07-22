@@ -81,7 +81,7 @@ public class Macro {
             }
             final Macro newMacro = new Macro(entries);
             newMacro.printMacro();
-            RoyBatty.logInfo("MACRO FROM FILE: "+filePath);
+            RoyBatty.logInfo("MACRO: "+filePath);
             return newMacro;
         }
         catch (FileNotFoundException ex)

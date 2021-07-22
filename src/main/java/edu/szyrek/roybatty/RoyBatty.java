@@ -19,7 +19,7 @@ public class RoyBatty
     public final static String FILE_ENCODING = "UTF-8";
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
-    public final static String MACRO_FILE_NAME = "edu.szyrek.roybatty.macro.Macro.txt";
+    public final static String MACRO_FILE_NAME = "MyMacro";
 
     @Setter
     private static JLabel statusBar;

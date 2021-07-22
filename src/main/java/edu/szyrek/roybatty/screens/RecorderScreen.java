@@ -46,7 +46,7 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
         fileName.setBounds(254, 240, 121, 25);
         add(fileName);
 
-        JButton btnNewButton = new JButton("Load edu.szyrek.roybatty.macro.Macro");
+        JButton btnNewButton = new JButton("Load");
         btnNewButton.addActionListener(e ->
         {
             if (!recorder.isRecording())
@@ -57,7 +57,7 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
         btnNewButton.setBounds(254, 201, 121, 25);
         add(btnNewButton);
 
-        JButton btnSaveMacro = new JButton("Save edu.szyrek.roybatty.macro.Macro");
+        JButton btnSaveMacro = new JButton("Save");
         btnSaveMacro.addActionListener(e ->
         {
             if (!recorder.isRecording())
@@ -67,6 +67,7 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
                     RoyBatty.logError("Record or load something first!");
                 }
                 recorder.getMacro().saveMacroFile(fileName.getText());
+                recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
             }
         });
         btnSaveMacro.setBounds(254, 163, 121, 25);
