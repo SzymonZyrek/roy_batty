@@ -1,21 +1,24 @@
 package edu.szyrek.roybatty.hotkey;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.szyrek.roybatty.RoyBatty;
 
+import edu.szyrek.roybatty.RoyBattyConfig;
+import edu.szyrek.roybatty.macro.Macro;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class Assignments  implements NativeKeyListener
 {
+    @Getter
     private Map<Hotkey, Assignment> assignmentMap = new HashMap<>();
     private Map<Hotkey, Assignment> assignmentsPlaying = new HashMap<>();
 

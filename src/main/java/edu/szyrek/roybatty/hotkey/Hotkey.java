@@ -1,5 +1,7 @@
 package edu.szyrek.roybatty.hotkey;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import edu.szyrek.roybatty.KeyMappings;
 import lombok.Getter;
 
@@ -18,11 +20,14 @@ public class Hotkey
     {
         this.codes = codes;
     }
+
+    @JsonCreator
     public Hotkey(final String encoded)
     {
         this.codes = Arrays.stream(encoded.split("\\+")).map(e-> KeyMappings.textToJnativeCodes(e)).collect(Collectors.toSet());
     }
 
+    @JsonValue
     @Override
     public String toString()
     {

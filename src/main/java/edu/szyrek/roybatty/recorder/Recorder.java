@@ -40,7 +40,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
 
     public void stopRecording()
     {
-        macro = new Macro(entries);
+        macro = new Macro("", entries);
         recording = (false);
         macro.printMacro();
         RoyBatty.logInfo("ACTIVE: --UNNAMED MACRO--");

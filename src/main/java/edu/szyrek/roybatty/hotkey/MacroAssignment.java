@@ -3,12 +3,14 @@ package edu.szyrek.roybatty.hotkey;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.concurrent.CompletableFuture;
 
 public class MacroAssignment implements Assignment
 {
+    @Getter
     private final Macro macro;
     private Player macroPlayer;
     private boolean repeat;

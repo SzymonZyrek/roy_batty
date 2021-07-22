@@ -5,6 +5,7 @@ import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.macro.entry.*;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -15,10 +16,14 @@ import java.util.ArrayList;
 @Slf4j
 public class Macro {
     @Getter
+    @Setter
+    private String name;
+    @Getter
     private ArrayList<MacroEntry> entries;
 
-    public Macro(final ArrayList<MacroEntry> entries)
+    public Macro(final String name, final ArrayList<MacroEntry> entries)
     {
+        this.name = name;
         this.entries = entries;
     }
 
@@ -93,7 +98,7 @@ public class Macro {
                         RoyBatty.logError("Uknown macro entry: "+line);
                 }
             }
-            final Macro newMacro = new Macro(entries);
+            final Macro newMacro = new Macro(fileName, entries);
             newMacro.printMacro();
             RoyBatty.logInfo("ACTIVE: "+filePath);
             return newMacro;
