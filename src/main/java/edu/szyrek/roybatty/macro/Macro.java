@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @Slf4j
@@ -44,6 +46,12 @@ public class Macro {
     public static Macro loadMacroFile(final String filePath)
     {
         final ArrayList<MacroEntry> entries = new ArrayList<>();
+        if (!Files.exists(Paths.get(filePath)))
+        {
+            String err = "File "+filePath+ " doesn't exist!";
+            RoyBatty.logError(err);
+            return null;
+        }
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath)))
         {
             String line;

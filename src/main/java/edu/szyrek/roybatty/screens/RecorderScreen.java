@@ -25,7 +25,6 @@ public class RecorderScreen extends JPanel
     private JButton recordButton;
     private JButton playButton;
     private JTextField fileName;
-    private JLabel statusBar;
 
     public JButton createRecordButton()
     {
@@ -90,13 +89,6 @@ public class RecorderScreen extends JPanel
         return loadButton;
     }
 
-    private JLabel createStatusBar()
-    {
-        JLabel sb = new JLabel("");
-        sb.setSize(300, 16);
-        return sb;
-    }
-
     private JPanel createInfoPanel()
     {
         JPanel infoPanel = new JPanel();
@@ -132,10 +124,6 @@ public class RecorderScreen extends JPanel
         playButton = createPlayButton();
         recPlayPanel.add(playButton);
         add(recPlayPanel);
-
-        statusBar = createStatusBar();
-        add(statusBar);
-        RoyBatty.setStatusBar(statusBar);
     }
 
     public RecorderScreen()
