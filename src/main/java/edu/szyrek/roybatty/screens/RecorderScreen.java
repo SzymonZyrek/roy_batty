@@ -1,6 +1,8 @@
 package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.hotkey.Assignment;
+import edu.szyrek.roybatty.hotkey.Assignments;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import edu.szyrek.roybatty.recorder.Recorder;
 import javax.swing.*;
 import java.awt.*;
 
-public class RecorderScreen extends JPanel implements NativeKeyListener
+public class RecorderScreen extends JPanel
 {
     @Setter
     private Player macroPlayer;
@@ -21,6 +23,8 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
     private JButton playButton;
     private JTextField fileName;
     private JLabel statusBar;
+
+    private Assignments assignments;
 
     public JButton createRecordButton()
     {
@@ -100,16 +104,15 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
         lblPresssTo.setSize(400, 16);
         infoPanel.add(lblPresssTo);
 
-        JLabel lblPressdTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.PLAY_BUTTON) + "\" to start/stop a playing.");
+        JLabel lblPressdTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.PLAY_BUTTON) + "\" to start/stop replaying.");
         lblPressdTo.setSize(400, 16);
         infoPanel.add(lblPressdTo);
 
         return infoPanel;
     }
 
-    public RecorderScreen()
+    private void craeteGUI()
     {
-        GlobalScreen.addNativeKeyListener(this);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel saveLoadPanel = new JPanel();
@@ -134,30 +137,12 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
         RoyBatty.setStatusBar(statusBar);
     }
 
-    @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
-    @Override public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
-    @Override
-    public void nativeKeyReleased(final NativeKeyEvent e)
+    public RecorderScreen()
     {
-        handleRecordHotkey(e);
-        handlePlayHotkey(e);
-    }
-
-    private void handleRecordHotkey(final NativeKeyEvent e)
-    {
-        if (e.getKeyCode() == RoyBatty.RECORD_BUTTON)
-        {
-            recStopAction();
-        }
-    }
-
-
-    private void handlePlayHotkey(final NativeKeyEvent e)
-    {
-        if (e.getKeyCode() == RoyBatty.PLAY_BUTTON)
-        {
-            playStopAction();
-        }
+        craeteGUI();
+        assignments = new Assignments();
+        assignments.assign(RoyBatty.RECORD_BUTTON, () -> recStopAction());
+        assignments.assign(RoyBatty.PLAY_BUTTON, () -> playStopAction());
     }
 
     private void recStopAction()
@@ -179,29 +164,28 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
         if (recorder.isRecording())
         {
             RoyBatty.logError("Stop recording first!");
+            return;
         }
         else
         {
-            if (macroPlayer != null)
+            if (recorder.getMacro() == null)
             {
-                macroPlayer.setRunning(!macroPlayer.isRunning());
+                RoyBatty.logError("Record or load something first!");
+                return;
             }
-            if (macroPlayer == null || macroPlayer.isRunning())
+            if (macroPlayer == null)
             {
-                if (recorder.getMacro() == null)
-                {
-                    RoyBatty.logError("Record or load something first!");
-                }
                 macroPlayer = new Player(recorder.getMacro());
-                macroPlayer.setRunning(true);
-                Thread t1 = new Thread(macroPlayer, "T1");
+            }
+            if (!macroPlayer.isRunning())
+            {
                 setMacroPlayer(macroPlayer);
-                t1.start();
+                macroPlayer.start();
                 playButton.setText(RoyBatty.STOP_LABEL);
             }
             else
             {
-                macroPlayer.setRunning(false);
+                macroPlayer.stop();
                 playButton.setText(RoyBatty.PLAY_LABEL);
             }
         }

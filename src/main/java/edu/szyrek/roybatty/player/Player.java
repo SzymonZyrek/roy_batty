@@ -20,6 +20,18 @@ public class Player implements Runnable
         this.macro = macro;
     }
 
+    public void stop()
+    {
+        setRunning(false);
+    }
+
+    public void start()
+    {
+        setRunning(true);
+        final Thread macroThread = new Thread(this);
+        macroThread.start();
+    }
+
     @Override
     public void run()
     {
