@@ -17,6 +17,10 @@ public class Assignments  implements NativeKeyListener
 {
     private Map<Hotkey, Assignment> assignmentMap = new HashMap<>();
     private Map<Hotkey, Assignment> assignmentsPlaying = new HashMap<>();
+
+    private Set<Integer> activeKeyCodes = new HashSet<>();
+    private Set<Integer> activatedKeyCodes = new HashSet<>();
+
     @Getter
     @Setter
     private boolean active = true;
@@ -37,52 +41,60 @@ public class Assignments  implements NativeKeyListener
     }
 
     @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
-    @Override public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
+    @Override public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent)
+    {
+        activatedKeyCodes.add(nativeKeyEvent.getKeyCode());
+        activeKeyCodes.add(nativeKeyEvent.getKeyCode());
+    }
     @Override
     public void nativeKeyReleased(final NativeKeyEvent event)
     {
-        final Set<Integer> combinationCodes = new HashSet<>();
-        combinationCodes.add(event.getKeyCode());
-        final Hotkey combination = new Hotkey(combinationCodes);
-
-        if (active && assignmentMap.containsKey(combination))
+        activeKeyCodes.remove(event.getKeyCode());
+        if (activeKeyCodes.size() == 0)
         {
-            Assignment assignment = assignmentMap.get(combination);
-            if (MacroAssignment.class.isAssignableFrom(assignment.getClass()))
+            final Hotkey combination = new Hotkey(activatedKeyCodes);
+
+            if (active && assignmentMap.containsKey(combination))
             {
-                final MacroAssignment macroAssignment = (MacroAssignment) assignment;
-                if (assignmentsPlaying.containsKey(combination))
+                Assignment assignment = assignmentMap.get(combination);
+                if (MacroAssignment.class.isAssignableFrom(assignment.getClass()))
                 {
-                    macroAssignment.stop();
+                    final MacroAssignment macroAssignment = (MacroAssignment) assignment;
                     if (assignmentsPlaying.containsKey(combination))
                     {
-                        assignmentsPlaying.remove(combination);
-                    }
-                    return;
-                }
-                else
-                {
-                    assignmentsPlaying.put(combination, assignment);
-                }
-                new Thread(()->
-                {
-                    try
-                    {
-                        macroAssignment.getFuture().get();
+                        macroAssignment.stop();
                         if (assignmentsPlaying.containsKey(combination))
                         {
                             assignmentsPlaying.remove(combination);
                         }
+                        return;
                     }
-                    catch (InterruptedException|ExecutionException ex)
+                    else
                     {
-                        RoyBatty.logException("Error while waiting for macro to finish", ex);
+                        assignmentsPlaying.put(combination, assignment);
                     }
-                }).start();
+                    new Thread(()->
+                    {
+                        try
+                        {
+                            macroAssignment.getFuture().get();
+                            if (assignmentsPlaying.containsKey(combination))
+                            {
+                                assignmentsPlaying.remove(combination);
+                            }
+                        }
+                        catch (InterruptedException|ExecutionException ex)
+                        {
+                            RoyBatty.logException("Error while waiting for macro to finish", ex);
+                        }
+                    }).start();
 
+                }
+                assignment.run();
             }
-            assignment.run();
+            activatedKeyCodes = new HashSet<>();
         }
+
     }
 
 }
