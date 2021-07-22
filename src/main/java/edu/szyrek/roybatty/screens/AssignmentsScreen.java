@@ -83,6 +83,7 @@ public class AssignmentsScreen extends JPanel
         assignmentPanel.add(keyButton);
 
         JTextField fileField = new JTextField("/macro/file");
+
         assignmentPanel.add(fileField);
         fileField.addFocusListener(new FocusListener() {
             @Override

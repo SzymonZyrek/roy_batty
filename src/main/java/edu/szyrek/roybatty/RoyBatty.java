@@ -10,6 +10,9 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Slf4j
 public class RoyBatty
@@ -30,6 +33,22 @@ public class RoyBatty
     public final static String STOP_LABEL = "Stop";
     public final static String SAVE_LABEL = "Save";
     public final static String LOAD_LABEL = "Load";
+    public final static String MACROS_PATH = "./macros";
+
+    static
+    {
+        if (!Files.exists(Paths.get(MACROS_PATH)))
+        {
+            try
+            {
+                Files.createDirectories(Paths.get(MACROS_PATH));
+            }
+            catch (IOException e)
+            {
+                RoyBatty.logException("Error while creating macros dir: ", e);
+            }
+        }
+    }
 
     @Setter
     private static JLabel statusBar;
