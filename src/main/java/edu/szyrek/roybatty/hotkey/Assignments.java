@@ -8,30 +8,32 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class Assignments  implements NativeKeyListener
 {
-    private Map<Integer, Assignment> assignmentMap = new HashMap<>();
-    private Map<Integer, Assignment> assignmentsPlaying = new HashMap<>();
+    private Map<Hotkey, Assignment> assignmentMap = new HashMap<>();
+    private Map<Hotkey, Assignment> assignmentsPlaying = new HashMap<>();
     @Getter
     @Setter
-    private boolean active;
+    private boolean active = true;
 
     public Assignments()
     {
         GlobalScreen.addNativeKeyListener(this);
     }
 
-    public void assign(final Integer keyCode, final Assignment assignment)
+    public void assign(final Hotkey hotkey, final Assignment assignment)
     {
-        assignmentMap.put(keyCode, assignment);
+        assignmentMap.put(hotkey, assignment);
     }
 
-    public void unassign(final Integer keyCode)
+    public void unassign(final Hotkey hotkey)
     {
-        assignmentMap.remove(keyCode);
+        assignmentMap.remove(hotkey);
     }
 
     @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
@@ -39,33 +41,37 @@ public class Assignments  implements NativeKeyListener
     @Override
     public void nativeKeyReleased(final NativeKeyEvent event)
     {
-        if (active && assignmentMap.containsKey(event.getKeyCode()))
+        final Set<Integer> combinationCodes = new HashSet<>();
+        combinationCodes.add(event.getKeyCode());
+        final Hotkey combination = new Hotkey(combinationCodes);
+
+        if (active && assignmentMap.containsKey(combination))
         {
-            Assignment assignment = assignmentMap.get(event.getKeyCode());
+            Assignment assignment = assignmentMap.get(combination);
             if (MacroAssignment.class.isAssignableFrom(assignment.getClass()))
             {
                 final MacroAssignment macroAssignment = (MacroAssignment) assignment;
-                if (assignmentsPlaying.containsKey(event.getKeyCode()))
+                if (assignmentsPlaying.containsKey(combination))
                 {
                     macroAssignment.stop();
-                    if (assignmentsPlaying.containsKey(event.getKeyCode()))
+                    if (assignmentsPlaying.containsKey(combination))
                     {
-                        assignmentsPlaying.remove(event.getKeyCode());
+                        assignmentsPlaying.remove(combination);
                     }
                     return;
                 }
                 else
                 {
-                    assignmentsPlaying.put(event.getKeyCode(), assignment);
+                    assignmentsPlaying.put(combination, assignment);
                 }
                 new Thread(()->
                 {
                     try
                     {
                         macroAssignment.getFuture().get();
-                        if (assignmentsPlaying.containsKey(event.getKeyCode()))
+                        if (assignmentsPlaying.containsKey(combination))
                         {
-                            assignmentsPlaying.remove(event.getKeyCode());
+                            assignmentsPlaying.remove(combination);
                         }
                     }
                     catch (InterruptedException|ExecutionException ex)

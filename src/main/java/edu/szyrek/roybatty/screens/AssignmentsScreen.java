@@ -2,6 +2,7 @@ package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.hotkey.MacroAssignment;
 import edu.szyrek.roybatty.macro.Macro;
 import org.jnativehook.GlobalScreen;
@@ -90,7 +91,7 @@ public class AssignmentsScreen extends JPanel
         assignButton.addActionListener(e ->
         {
             RoyBatty.getAssignments().assign(
-                    KeyMappings.textToJnativeCodes(keyButton.getText().toUpperCase()),
+                    new Hotkey(activatedCodes),
                     new MacroAssignment(Macro.loadMacroFile(fileField.getText()), repeatCheckbox.isSelected())
             );
         });
@@ -100,9 +101,7 @@ public class AssignmentsScreen extends JPanel
         JButton unssignButton = new JButton("Unassign");
         unssignButton.addActionListener(e ->
         {
-            RoyBatty.getAssignments().unassign(
-                    KeyMappings.textToJnativeCodes(keyButton.getText().toUpperCase())
-            );
+            RoyBatty.getAssignments().unassign(new Hotkey(activatedCodes));
         });
         unssignButton.setSize(158, 25);
         assignmentPanel.add(unssignButton);

@@ -3,6 +3,7 @@ package edu.szyrek.roybatty.screens;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.hotkey.Assignment;
 import edu.szyrek.roybatty.hotkey.Assignments;
+import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
 import lombok.Setter;
@@ -12,6 +13,8 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import edu.szyrek.roybatty.recorder.Recorder;
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -138,8 +141,16 @@ public class RecorderScreen extends JPanel
     public RecorderScreen()
     {
         craeteGUI();
-        RoyBatty.getAssignments().assign(RoyBatty.RECORD_BUTTON, () -> recStopAction());
-        RoyBatty.getAssignments().assign(RoyBatty.PLAY_BUTTON, () -> playStopAction());
+        Set<Integer> recordCodes = new HashSet<>();
+        recordCodes.add(RoyBatty.RECORD_BUTTON);
+        Hotkey recordHotkey = new Hotkey(recordCodes);
+
+        Set<Integer> playCodes = new HashSet<>();
+        playCodes.add(RoyBatty.PLAY_BUTTON);
+        Hotkey playHotkey = new Hotkey(playCodes);
+
+        RoyBatty.getAssignments().assign(recordHotkey, () -> recStopAction());
+        RoyBatty.getAssignments().assign(playHotkey, () -> playStopAction());
     }
 
     private void recStopAction()
