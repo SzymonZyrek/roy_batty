@@ -22,7 +22,7 @@ public class RoyBatty
 {
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
-    public final static String CONFIG_PATH = "./roy_batty.json_sample";
+    public static String CONFIG_PATH = "./roy_batty.conf";
 
     static
     {
@@ -70,6 +70,14 @@ public class RoyBatty
 
     public static void main(String[] args)
     {
+        for (int i = 0; i < args.length; i++)
+        {
+            if (args[i].equals("-c"))
+            {
+                i+=1;
+                CONFIG_PATH = args[i];
+            }
+        }
         SwingUtilities.invokeLater(() -> new SwingFrame());
     }
 
