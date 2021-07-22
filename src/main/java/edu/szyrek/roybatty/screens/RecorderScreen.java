@@ -17,48 +17,45 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
     private Player macroPlayer;
     private final Recorder recorder = new Recorder();
 
-    public JButton btnStartRecording;
-    public JLabel statusBar;
+    private JButton recordButton;
+    private JButton playButton;
+    private JTextField fileName;
+    private JLabel statusBar;
 
-    public RecorderScreen()
+    public JButton createRecordButton()
     {
-        GlobalScreen.addNativeKeyListener(this);
-        setLayout(new BorderLayout());
-
-        btnStartRecording = new JButton("Start Recording");
-        btnStartRecording.addActionListener(e ->
+        JButton theRecordButton = new JButton(RoyBatty.RECORD_LABEL);
+        theRecordButton.addActionListener(e ->
         {
-            if (recorder.isRecording())
-            {
-                btnStartRecording.setText("Start Recording");
-                recorder.stopRecording();
-            }
-            else
-            {
-                btnStartRecording.setText("Stop Recording");
-                recorder.startRecording();
-            }
+            recStopAction();
         });
-        btnStartRecording.setBounds(12, 163, 158, 25);
-        add(btnStartRecording);
+        theRecordButton.setSize(158, 25);
+        return theRecordButton;
+    }
 
-        JTextField fileName = new JTextField(RoyBatty.MACRO_FILE_NAME);
-        fileName.setBounds(254, 240, 121, 25);
-        add(fileName);
+    public JTextField createFileNameField()
+    {
+        JTextField fnf = new JTextField(RoyBatty.MACRO_FILE_NAME);
+        fnf.setSize(300, 25);
+        fnf.setMaximumSize(new Dimension(300, 25));
+        return fnf;
+    }
 
-        JButton btnNewButton = new JButton("Load");
-        btnNewButton.addActionListener(e ->
+    public JButton createPlayButton()
+    {
+        JButton thePlayButton = new JButton(RoyBatty.PLAY_LABEL);
+        thePlayButton.addActionListener(e ->
         {
-            if (!recorder.isRecording())
-            {
-                recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
-            }
+            playStopAction();
         });
-        btnNewButton.setBounds(254, 201, 121, 25);
-        add(btnNewButton);
+        thePlayButton.setSize(158, 25);
+        return thePlayButton;
+    }
 
-        JButton btnSaveMacro = new JButton("Save");
-        btnSaveMacro.addActionListener(e ->
+    public JButton createSaveButton()
+    {
+        JButton saveButton = new JButton(RoyBatty.SAVE_LABEL);
+        saveButton.addActionListener(e ->
         {
             if (!recorder.isRecording())
             {
@@ -70,21 +67,71 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
                 recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
             }
         });
-        btnSaveMacro.setBounds(254, 163, 121, 25);
-        add(btnSaveMacro);
+        saveButton.setSize(121, 25);
+        return saveButton;
+    }
 
-        statusBar = new JLabel("");
-        statusBar.setBounds(112, 13, 300, 16);
-        add(statusBar);
-        RoyBatty.setStatusBar(statusBar);
+    public JButton createLoadButton()
+    {
+        JButton loadButton = new JButton(RoyBatty.LOAD_LABEL);
+        loadButton.addActionListener(e ->
+        {
+            if (!recorder.isRecording())
+            {
+                recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
+            }
+        });
+        loadButton.setSize(121, 25);
+        return loadButton;
+    }
 
+    private JLabel createStatusBar()
+    {
+        JLabel sb = new JLabel("");
+        sb.setSize(300, 16);
+        return sb;
+    }
+
+    private JPanel createInfoPanel()
+    {
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         JLabel lblPresssTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.RECORD_BUTTON) + "\" to start/stop recording.");
-        lblPresssTo.setBounds(12, 81, 400, 16);
-        add(lblPresssTo);
+        lblPresssTo.setSize(400, 16);
+        infoPanel.add(lblPresssTo);
 
         JLabel lblPressdTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.PLAY_BUTTON) + "\" to start/stop a playing.");
-        lblPressdTo.setBounds(12, 111, 400, 16);
-        add(lblPressdTo);
+        lblPressdTo.setSize(400, 16);
+        infoPanel.add(lblPressdTo);
+
+        return infoPanel;
+    }
+
+    public RecorderScreen()
+    {
+        GlobalScreen.addNativeKeyListener(this);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        JPanel saveLoadPanel = new JPanel();
+        saveLoadPanel.setLayout(new BoxLayout(saveLoadPanel, BoxLayout.X_AXIS));
+        saveLoadPanel.add(createLoadButton());
+        saveLoadPanel.add(createSaveButton());
+        fileName = createFileNameField();
+        add(fileName);
+        add(saveLoadPanel);
+        add(createInfoPanel());
+
+        JPanel recPlayPanel = new JPanel();
+        recPlayPanel.setLayout(new BoxLayout(recPlayPanel, BoxLayout.X_AXIS));
+        recordButton = createRecordButton();
+        recPlayPanel.add(recordButton);
+        playButton = createPlayButton();
+        recPlayPanel.add(playButton);
+        add(recPlayPanel);
+
+        statusBar = createStatusBar();
+        add(statusBar);
+        RoyBatty.setStatusBar(statusBar);
     }
 
     @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
@@ -98,25 +145,42 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
 
     private void handleRecordHotkey(final NativeKeyEvent e)
     {
-        if (e.getKeyCode() == RoyBatty.RECORD_BUTTON && !recorder.isRecording())
+        if (e.getKeyCode() == RoyBatty.RECORD_BUTTON)
         {
-            btnStartRecording.setText("Stop Recording");
-            recorder.startRecording();
-        }
-        else if (e.getKeyCode() == RoyBatty.RECORD_BUTTON)
-        {
-            btnStartRecording.setText("Start Recording");
-            recorder.stopRecording();
+            recStopAction();
         }
     }
 
+
     private void handlePlayHotkey(final NativeKeyEvent e)
     {
-        if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && recorder.isRecording())
+        if (e.getKeyCode() == RoyBatty.PLAY_BUTTON)
+        {
+            playStopAction();
+        }
+    }
+
+    private void recStopAction()
+    {
+        if (recorder.isRecording())
+        {
+            recordButton.setText(RoyBatty.RECORD_LABEL);
+            recorder.stopRecording();
+        }
+        else
+        {
+            recordButton.setText(RoyBatty.STOP_LABEL);
+            recorder.startRecording();
+        }
+    }
+
+    private void playStopAction()
+    {
+        if (recorder.isRecording())
         {
             RoyBatty.logError("Stop recording first!");
         }
-        else if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && !recorder.isRecording())
+        else
         {
             if (macroPlayer != null)
             {
@@ -133,10 +197,12 @@ public class RecorderScreen extends JPanel implements NativeKeyListener
                 Thread t1 = new Thread(macroPlayer, "T1");
                 setMacroPlayer(macroPlayer);
                 t1.start();
+                playButton.setText(RoyBatty.STOP_LABEL);
             }
             else
             {
                 macroPlayer.setRunning(false);
+                playButton.setText(RoyBatty.PLAY_LABEL);
             }
         }
     }
