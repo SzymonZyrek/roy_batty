@@ -3,6 +3,7 @@ package edu.szyrek.roybatty.screens;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
+import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
@@ -11,8 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RecorderScreen extends JPanel implements NativeKeyListener {
-    private final Recorder recorder = new Recorder(this);
+    @Setter
     private Player macroPlayer;
+    private final Recorder recorder = new Recorder(this);
+
     public JButton btnStartRecording;
     public JLabel statusBar;
 
@@ -72,15 +75,6 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         add(lblPressdTo);
     }
 
-    public Player getMacroPlayer() {
-        return macroPlayer;
-    }
-
-    public void setMacroPlayer(Player macroPlayer) {
-        this.macroPlayer = macroPlayer;
-    }
-
-
     @Override
     public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
 
@@ -89,6 +83,12 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
 
+    }
+
+    @Override
+    public void nativeKeyReleased(final NativeKeyEvent e) {
+        handleRecordHotkey(e);
+        handlePlayHotkey(e);
     }
 
     private void handleRecordHotkey(final NativeKeyEvent e) {
@@ -121,11 +121,5 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
                 macroPlayer.stop();
             }
         }
-    }
-
-    @Override
-    public void nativeKeyReleased(final NativeKeyEvent e) {
-        handleRecordHotkey(e);
-        handlePlayHotkey(e);
     }
 }

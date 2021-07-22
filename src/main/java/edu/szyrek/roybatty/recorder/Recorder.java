@@ -7,34 +7,28 @@ import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.*;
 import edu.szyrek.roybatty.macro.entry.*;
 import edu.szyrek.roybatty.screens.RecorderScreen;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.*;
 
 public class Recorder implements NativeKeyListener, NativeMouseListener, NativeMouseWheelListener, NativeMouseMotionListener {
+    @Getter
     private volatile boolean recording = false;
+    @Getter
+    @Setter
+    private Macro macro;
     private Long lastEventTime;
     private ArrayList<MacroEntry> entries;
-    private Macro macro;
 
     public Recorder(final RecorderScreen gui) {
         GlobalScreen.addNativeKeyListener(this);
         GlobalScreen.addNativeMouseMotionListener(this);
         GlobalScreen.addNativeMouseWheelListener(this);
         GlobalScreen.addNativeMouseListener(this);
-    }
-
-    public boolean isRecording() {
-        return recording;
-    }
-
-    public Macro getMacro() {
-        return this.macro;
-    }
-
-    public void setMacro(final Macro macro) {
-        this.macro = macro;
     }
 
     public void startRecording() {
@@ -70,6 +64,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         }
     }
 
+    @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
         if (recording)
         {
@@ -83,6 +78,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         }
     }
 
+    @Override
     public void nativeKeyReleased(NativeKeyEvent e) {
         if (recording)
         {
@@ -96,6 +92,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         }
     }
 
+    @Override
     public void nativeKeyTyped(NativeKeyEvent e) {
 
     }

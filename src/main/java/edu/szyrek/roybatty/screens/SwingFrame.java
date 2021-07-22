@@ -2,6 +2,8 @@ package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.screens.MainScreen;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.dispatcher.SwingDispatchService;
@@ -13,74 +15,72 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SwingFrame extends JFrame implements WindowListener {
+@Slf4j
+public class SwingFrame extends JFrame implements WindowListener
+{
 
     public SwingFrame()
     {
         GlobalScreen.setEventDispatcher(new SwingDispatchService());
+
         setTitle(RoyBatty.APPLICATION_NAME + ":" + RoyBatty.APPLICATION_VERSION);
-        setBounds(100, 100, 450, 300);
+        setBounds(RoyBatty.WINDOW_STARTX, RoyBatty.WINDOW_STARTY, RoyBatty.WINDOW_WIDTH, RoyBatty.WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
         setVisible(true);
 
-        MainScreen mainScreen = new MainScreen();
+        final MainScreen mainScreen = new MainScreen();
         setContentPane(mainScreen);
     }
 
-
-    public void windowOpened(WindowEvent e) {
-        // Initialze native hook.
-        try {
+    @Override
+    @SneakyThrows
+    public void windowOpened(WindowEvent e)
+    {
+        try
+        {
             GlobalScreen.registerNativeHook();
-        } catch (NativeHookException ex) {
-            RoyBatty.logError("There was a problem registering the native hook.");
-            System.err.println(ex.getMessage());
-            ex.printStackTrace();
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
+        }
+        catch (NativeHookException ex)
+        {
+            RoyBatty.logException("There was a problem registering the native hook.", ex);
+            Thread.sleep(5000);
             System.exit(1);
         }
-
-
-        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-        logger.setLevel(Level.OFF);
-        Handler[] handlers = Logger.getLogger("").getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            handlers[i].setLevel(Level.OFF);
-        }
+        silenceLoggers();
     }
 
-    public void windowClosed(WindowEvent e) {
-        try {
+    @Override
+    public void windowClosed(WindowEvent e)
+    {
+        try
+        {
             GlobalScreen.unregisterNativeHook();
-        } catch (NativeHookException e1) {
+        }
+        catch (NativeHookException e1)
+        {
             e1.printStackTrace();
         }
         System.runFinalization();
         System.exit(0);
     }
 
-    public void windowClosing(WindowEvent e) {
-        /* Unimplemented */
+    @Override public void windowClosing(WindowEvent e) {/* Unimplemented */}
+    @Override public void windowIconified(WindowEvent e) {/* Unimplemented */}
+    @Override public void windowDeiconified(WindowEvent e) {/* Unimplemented */}
+    @Override public void windowActivated(WindowEvent e) {/* Unimplemented */}
+    @Override public void windowDeactivated(WindowEvent e) {/* Unimplemented */}
+
+    private void silenceLoggers()
+    {
+        final Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.OFF);
+
+        final Handler[] handlers = Logger.getLogger("").getHandlers();
+        for (int i = 0; i < handlers.length; i++)
+        {
+            handlers[i].setLevel(Level.OFF);
+        }
     }
 
-    public void windowIconified(WindowEvent e) {
-        /* Unimplemented */
-    }
-
-    public void windowDeiconified(WindowEvent e) {
-        /* Unimplemented */
-    }
-
-    public void windowActivated(WindowEvent e) {
-        /* Unimplemented */
-    }
-
-    public void windowDeactivated(WindowEvent e) {
-        /* Unimplemented */
-    }
 }

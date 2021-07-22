@@ -2,10 +2,12 @@ package edu.szyrek.roybatty.macro;
 
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.entry.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.ArrayList;
 
+@Slf4j
 public class Macro {
     private ArrayList<MacroEntry> entries;
 
@@ -16,7 +18,7 @@ public class Macro {
 
     public void printMacro() {
         for (final MacroEntry entry: entries) {
-            System.out.println(entry.writeAsString());
+            log.error(entry.writeAsString());
         }
     }
 
