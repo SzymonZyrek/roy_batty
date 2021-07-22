@@ -1,17 +1,17 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import edu.szyrek.roybatty.RoyBatty;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
 
-public class LeftClickMacro extends MouseMacro {
+public class LeftClickEntry extends MouseEntry {
 
-    public LeftClickMacro(int x, int y, int time) {
+    public LeftClickEntry(int x, int y, int time) {
         super(x, y, time);
     }
 
-    public LeftClickMacro(final String fromString) {
+    public LeftClickEntry(final String fromString) {
         super(fromString);
     }
 

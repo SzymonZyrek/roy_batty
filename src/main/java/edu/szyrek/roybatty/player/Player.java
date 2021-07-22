@@ -1,4 +1,7 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.player;
+
+import edu.szyrek.roybatty.macro.Macro;
+import edu.szyrek.roybatty.macro.entry.MacroEntry;
 
 import java.awt.AWTException;
 import java.awt.Robot;

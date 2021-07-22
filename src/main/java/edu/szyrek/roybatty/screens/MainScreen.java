@@ -1,3 +1,5 @@
+package edu.szyrek.roybatty.screens;
+
 import javax.swing.*;
 
 public class MainScreen extends JTabbedPane {

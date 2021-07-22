@@ -1,16 +1,16 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import edu.szyrek.roybatty.RoyBatty;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
 
-public class RightReleaseMacro extends MouseMacro {
-    public RightReleaseMacro(int x, int y, int time) {
+public class RightReleaseEntry extends MouseEntry {
+    public RightReleaseEntry(int x, int y, int time) {
         super(x, y, time);
     }
 
-    public RightReleaseMacro(final String fromString) {
+    public RightReleaseEntry(final String fromString) {
         super(fromString);
     }
 

@@ -1,10 +1,13 @@
+package edu.szyrek.roybatty.screens;
+
+import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.macro.Macro;
+import edu.szyrek.roybatty.player.Player;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
-
+import edu.szyrek.roybatty.recorder.Recorder;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class RecorderScreen extends JPanel implements NativeKeyListener {
@@ -34,7 +37,7 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         fileName.setBounds(254, 240, 121, 25);
         add(fileName);
 
-        JButton btnNewButton = new JButton("Load Macro");
+        JButton btnNewButton = new JButton("Load edu.szyrek.roybatty.macro.Macro");
         btnNewButton.addActionListener(e -> {
             if (!recorder.isRecording()) {
                 recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
@@ -43,7 +46,7 @@ public class RecorderScreen extends JPanel implements NativeKeyListener {
         btnNewButton.setBounds(254, 201, 121, 25);
         add(btnNewButton);
 
-        JButton btnSaveMacro = new JButton("Save Macro");
+        JButton btnSaveMacro = new JButton("Save edu.szyrek.roybatty.macro.Macro");
         btnSaveMacro.addActionListener(e -> {
             if (!recorder.isRecording()) {
                 if (recorder.getMacro() == null) {

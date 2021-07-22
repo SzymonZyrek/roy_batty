@@ -1,3 +1,6 @@
+package edu.szyrek.roybatty;
+
+import edu.szyrek.roybatty.screens.SwingFrame;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import javax.swing.*;
@@ -8,7 +11,7 @@ public class RoyBatty {
     public final static String FILE_ENCODING = "UTF-8";
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
-    public final static String MACRO_FILE_NAME = "Macro.txt";
+    public final static String MACRO_FILE_NAME = "edu.szyrek.roybatty.macro.Macro.txt";
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SwingFrame());

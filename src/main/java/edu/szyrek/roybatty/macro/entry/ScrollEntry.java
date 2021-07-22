@@ -1,4 +1,4 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import edu.szyrek.roybatty.RoyBatty;
 
@@ -6,14 +6,14 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScrollMacro extends BaseMacro implements MacroEntry {
+public class ScrollEntry extends BaseEntry implements MacroEntry {
     private int amount;
 
     protected char getLetter() {
         return 'S';
     }
 
-    public ScrollMacro(int amount, int time)
+    public ScrollEntry(int amount, int time)
     {
         super(time);
         this.amount = amount;
@@ -24,7 +24,7 @@ public class ScrollMacro extends BaseMacro implements MacroEntry {
         return super.writeAsString() + " " + this.amount + " " + this.time;
     }
 
-    public ScrollMacro(final String fromString) {
+    public ScrollEntry(final String fromString) {
         super(0);
         if (!fromString.startsWith(this.getLetter() + " "))
         {

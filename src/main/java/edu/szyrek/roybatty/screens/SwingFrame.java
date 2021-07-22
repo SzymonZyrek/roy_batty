@@ -1,3 +1,7 @@
+package edu.szyrek.roybatty.screens;
+
+import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.screens.MainScreen;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.dispatcher.SwingDispatchService;

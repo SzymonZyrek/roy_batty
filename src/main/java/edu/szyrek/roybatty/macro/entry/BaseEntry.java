@@ -1,11 +1,11 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
-public abstract class BaseMacro implements MacroEntry {
+public abstract class BaseEntry implements MacroEntry {
     protected int time;
 
-    public BaseMacro(String fromString) {}
+    public BaseEntry(String fromString) {}
 
-    public BaseMacro(int time)
+    public BaseEntry(int time)
     {
         this.time = time;
     }

@@ -1,9 +1,11 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.recorder;
 
 import java.util.ArrayList;
 
 import edu.szyrek.roybatty.Keys;
 import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.macro.*;
+import edu.szyrek.roybatty.macro.entry.*;
 import edu.szyrek.roybatty.screens.RecorderScreen;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -53,7 +55,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         if (recording)
         {
             final Long nowTime = System.currentTimeMillis();
-            this.entries.add(new MouseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            this.entries.add(new MouseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }
@@ -63,7 +65,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         if (recording)
         {
             final Long nowTime = System.currentTimeMillis();
-            entries.add(new MouseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            entries.add(new MouseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }
@@ -75,7 +77,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
             int code = Keys.jnativeToAwtCodes(e.getKeyCode());
             if (code != -1)
             {
-                entries.add(new KeyPressMacro(code, (int)(nowTime-lastEventTime)));
+                entries.add(new KeyPressEntry(code, (int)(nowTime-lastEventTime)));
                 lastEventTime = nowTime;
             }
         }
@@ -88,7 +90,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
             int code = Keys.jnativeToAwtCodes(e.getKeyCode());
             if (code != -1)
             {
-                entries.add(new KeyReleaseMacro(code, (int)(nowTime-lastEventTime)));
+                entries.add(new KeyReleaseEntry(code, (int)(nowTime-lastEventTime)));
                 lastEventTime = nowTime;
             }
         }
@@ -110,11 +112,11 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
             final Long nowTime = System.currentTimeMillis();
             if (e.getButton() == NativeMouseEvent.BUTTON1)
             {
-                entries.add(new LeftClickMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+                entries.add(new LeftClickEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             }
             else if (e.getButton() == NativeMouseEvent.BUTTON2)
             {
-                entries.add(new RightClickMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+                entries.add(new RightClickEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             }
             lastEventTime = nowTime;
         }
@@ -127,11 +129,11 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
             final Long nowTime = System.currentTimeMillis();
             if (e.getButton() == NativeMouseEvent.BUTTON1)
             {
-                entries.add(new LeftReleaseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+                entries.add(new LeftReleaseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             }
             else if (e.getButton() == NativeMouseEvent.BUTTON2)
             {
-                entries.add(new RightReleaseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+                entries.add(new RightReleaseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             }
             lastEventTime = nowTime;
         }
@@ -142,7 +144,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         if (recording)
         {
             final Long nowTime = System.currentTimeMillis();
-            entries.add(new ScrollMacro(-e.getWheelRotation(), (int)(nowTime-lastEventTime)));
+            entries.add(new ScrollEntry(-e.getWheelRotation(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }

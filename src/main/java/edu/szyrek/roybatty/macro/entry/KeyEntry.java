@@ -1,12 +1,12 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class KeyMacro extends BaseMacro implements MacroEntry {
+public abstract class KeyEntry extends BaseEntry implements MacroEntry {
     protected int key;
 
-    public KeyMacro(int key, int time)
+    public KeyEntry(int key, int time)
     {
         super(time);
         this.key = key;
@@ -17,7 +17,7 @@ public abstract class KeyMacro extends BaseMacro implements MacroEntry {
         return super.writeAsString() + " " + this.key + " " + this.time;
     }
 
-    public KeyMacro(final String fromString) {
+    public KeyEntry(final String fromString) {
         super(0);
         if (!fromString.startsWith(this.getLetter() + " "))
         {

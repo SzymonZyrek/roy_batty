@@ -1,4 +1,4 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import java.awt.*;
 

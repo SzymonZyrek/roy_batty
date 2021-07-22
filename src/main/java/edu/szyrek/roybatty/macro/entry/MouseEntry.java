@@ -1,4 +1,4 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import edu.szyrek.roybatty.RoyBatty;
 
@@ -6,14 +6,14 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class MouseMacro extends BaseMacro implements MacroEntry{
+public class MouseEntry extends BaseEntry implements MacroEntry{
     protected int x,y;
 
-    protected MouseMacro(int time) {
+    protected MouseEntry(int time) {
         super(time);
     }
 
-    public MouseMacro(final int x, final int y, final int time)
+    public MouseEntry(final int x, final int y, final int time)
     {
         super(time);
         this.x = x;
@@ -25,7 +25,7 @@ public class MouseMacro extends BaseMacro implements MacroEntry{
         return super.writeAsString() + " " + this.x + " " + this.y + " " + this.time;
     }
 
-    public MouseMacro(final String fromString) {
+    public MouseEntry(final String fromString) {
         super(fromString);
         if (!fromString.startsWith(this.getLetter()+" "))
         {

@@ -1,15 +1,15 @@
-package edu.szyrek.roybatty.macro;
+package edu.szyrek.roybatty.macro.entry;
 
 import edu.szyrek.roybatty.RoyBatty;
 
 import java.awt.*;
 
-public class KeyPressMacro extends KeyMacro implements MacroEntry {
-    public KeyPressMacro(int key, int time) {
+public class KeyPressEntry extends KeyEntry implements MacroEntry {
+    public KeyPressEntry(int key, int time) {
         super(key, time);
     }
 
-    public KeyPressMacro(String string) {
+    public KeyPressEntry(String string) {
         super(string);
     }
 

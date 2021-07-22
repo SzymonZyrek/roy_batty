@@ -1,3 +1,8 @@
+package edu.szyrek.roybatty.macro;
+
+import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.macro.entry.*;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -33,28 +38,28 @@ public class Macro {
                 switch (line.charAt(0))
                 {
                     case 'M':
-                        entries.add(new MouseMacro(line));
+                        entries.add(new MouseEntry(line));
                         break;
                     case 'L':
-                        entries.add(new LeftClickMacro(line));
+                        entries.add(new LeftClickEntry(line));
                         break;
                     case 'l':
-                        entries.add(new LeftReleaseMacro(line));
+                        entries.add(new LeftReleaseEntry(line));
                         break;
                     case 'R':
-                        entries.add(new RightClickMacro(line));
+                        entries.add(new RightClickEntry(line));
                         break;
                     case 'r':
-                        entries.add(new RightReleaseMacro(line));
+                        entries.add(new RightReleaseEntry(line));
                         break;
                     case 'K':
-                        entries.add(new KeyPressMacro(line));
+                        entries.add(new KeyPressEntry(line));
                         break;
                     case 'k':
-                        entries.add(new KeyReleaseMacro(line));
+                        entries.add(new KeyReleaseEntry(line));
                         break;
                     case 'S':
-                        entries.add(new ScrollMacro(line));
+                        entries.add(new ScrollEntry(line));
                         break;
                     default:
                         RoyBatty.logError("Uknown macro entry: "+line);

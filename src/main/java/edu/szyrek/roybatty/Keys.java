@@ -1,7 +1,8 @@
+package edu.szyrek.roybatty;
+
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import java.awt.event.KeyEvent;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
