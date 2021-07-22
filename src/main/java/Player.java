@@ -1,17 +1,13 @@
 import java.awt.AWTException;
-import java.awt.Point;
 import java.awt.Robot;
-import java.util.ArrayList;
 
 public class Player implements Runnable {
-    final ArrayList<Point> macroPoints;
-    final ArrayList<Long> times;
+    final Macro macro;
 
     volatile boolean running = false;
 
-    public Player(final ArrayList<Point> mP, final ArrayList<Long> times) {
-        this.macroPoints = mP;
-        this.times = times;
+    public Player(final Macro macro) {
+        this.macro = macro;
     }
 
     @Override
@@ -19,15 +15,13 @@ public class Player implements Runnable {
         try {
             final Robot bot = new Robot();
             while (running) {
-                for (int i = 0; i < macroPoints.size() && running; i++) {
-                    final Point p = macroPoints.get(i);
-                    final Long t = times.get(i);
-                    Thread.sleep(t);
-                    bot.mouseMove(p.x, p.y);
+                for (final MacroEntry entry: macro.getEntries()) {
+                    if (!running)
+                        break;
+                    entry.performEntry(bot);
                 }
             }
-
-        } catch (AWTException|InterruptedException e) {
+        } catch (AWTException e) {
             e.printStackTrace();
         }
     }
