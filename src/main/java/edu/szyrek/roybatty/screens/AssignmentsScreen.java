@@ -82,7 +82,7 @@ public class AssignmentsScreen extends JPanel
         });
         assignmentPanel.add(keyButton);
 
-        JTextField fileField = new JTextField("/macro/file");
+        JComboBox<String> fileField = new JComboBox<>(RoyBatty.getAvailableMacros().toArray(new String[0]));
 
         assignmentPanel.add(fileField);
         fileField.addFocusListener(new FocusListener() {
@@ -113,7 +113,7 @@ public class AssignmentsScreen extends JPanel
 
             RoyBatty.getAssignments().assign(
                     new Hotkey(codes),
-                    new MacroAssignment(Macro.loadMacroFile(fileField.getText()), repeatCheckbox.isSelected())
+                    new MacroAssignment(Macro.loadMacroFile((String)fileField.getSelectedItem()), repeatCheckbox.isSelected())
             );
 
             listener.setActivatedCodes(activatedCodes);
@@ -124,7 +124,12 @@ public class AssignmentsScreen extends JPanel
         JButton unssignButton = new JButton("Unassign");
         unssignButton.addActionListener(e ->
         {
-            RoyBatty.getAssignments().unassign(new Hotkey(activatedCodes));
+            Set<Integer> codes = new HashSet<>();
+            for (String s: keyButton.getText().split("\\+"))
+            {
+                codes.add(KeyMappings.textToJnativeCodes(s));
+            }
+            RoyBatty.getAssignments().unassign(new Hotkey(codes));
         });
         unssignButton.setSize(158, 25);
         assignmentPanel.add(unssignButton);

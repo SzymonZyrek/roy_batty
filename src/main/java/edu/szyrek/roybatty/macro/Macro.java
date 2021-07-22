@@ -38,6 +38,7 @@ public class Macro {
             {
                 pointsWriter.println(entry.writeAsString());
             }
+            RoyBatty.registerMacro(fileName);
         }
         catch (FileNotFoundException | UnsupportedEncodingException ex)
         {

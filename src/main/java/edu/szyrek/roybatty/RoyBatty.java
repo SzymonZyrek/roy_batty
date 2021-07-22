@@ -8,11 +8,15 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
+import javax.crypto.Mac;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 public class RoyBatty
@@ -56,7 +60,28 @@ public class RoyBatty
     private static final Assignments assignments = new Assignments();
     @Getter
     private static final Recorder macroRecorder = new Recorder();
+    @Getter
+    private static final Set<String> availableMacros = Collections.synchronizedSet(new HashSet<>());
 
+    static
+    {
+        try
+        {
+            Files.list(Paths.get(RoyBatty.MACROS_PATH)).forEach(path->
+            {
+                registerMacro(path.getFileName().toString());
+            });
+        }
+        catch (IOException e)
+        {
+            RoyBatty.logException("Problem loading macros list from [" + MACROS_PATH + "]: ", e);
+        }
+    }
+
+    public static void registerMacro(final String name)
+    {
+        availableMacros.add(name);
+    }
 
     public static void main(String[] args)
     {
