@@ -11,7 +11,7 @@
 	
 ## Running:
 
-    java -jar target/roy_batty-0.0.1-jar-with-dependencies.jar
+    java -jar target/roy_batty.jar
 
 ## Usage:
 
