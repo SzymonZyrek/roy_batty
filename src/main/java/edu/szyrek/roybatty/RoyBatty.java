@@ -24,21 +24,6 @@ public class RoyBatty
     public final static String APPLICATION_VERSION = "0.0.1";
     public static String CONFIG_PATH = "./roy_batty.conf";
 
-    static
-    {
-        if (!Files.exists(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())))
-        {
-            try
-            {
-                Files.createDirectories(Paths.get(RoyBattyConfig.getConfig().getMacrosPath()));
-            }
-            catch (IOException e)
-            {
-                RoyBatty.logException("Error while creating macros dir: ", e);
-            }
-        }
-    }
-
     @Setter
     private static JLabel statusBar;
     @Getter
@@ -47,21 +32,6 @@ public class RoyBatty
     private static final Recorder macroRecorder = new Recorder();
     @Getter
     private static final Set<String> availableMacros = Collections.synchronizedSet(new HashSet<>());
-
-    static
-    {
-        try
-        {
-            Files.list(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())).forEach(path->
-            {
-                registerMacro(path.getFileName().toString());
-            });
-        }
-        catch (IOException e)
-        {
-            RoyBatty.logException("Problem loading macros list from [" + RoyBattyConfig.getConfig().getMacrosPath() + "]: ", e);
-        }
-    }
 
     public static void registerMacro(final String name)
     {
@@ -78,6 +48,31 @@ public class RoyBatty
                 CONFIG_PATH = args[i];
             }
         }
+
+        if (!Files.exists(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())))
+        {
+            try
+            {
+                Files.createDirectories(Paths.get(RoyBattyConfig.getConfig().getMacrosPath()));
+            }
+            catch (IOException e)
+            {
+                RoyBatty.logException("Error while creating macros dir: ", e);
+            }
+        }
+
+        try
+        {
+            Files.list(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())).forEach(path->
+            {
+                registerMacro(path.getFileName().toString());
+            });
+        }
+        catch (IOException e)
+        {
+            RoyBatty.logException("Problem loading macros list from [" + RoyBattyConfig.getConfig().getMacrosPath() + "]: ", e);
+        }
+
         SwingUtilities.invokeLater(() -> new SwingFrame());
     }
 
