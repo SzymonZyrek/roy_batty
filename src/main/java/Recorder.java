@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 import org.jnativehook.GlobalScreen;
-import org.jnativehook.dispatcher.SwingDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
@@ -49,16 +48,12 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         RoyBatty.logInfo("MACRO IN MEMORY");
     }
 
-    public void nativeKeyReleased(NativeKeyEvent e) {
-
-    }
-
     @Override
     public void nativeMouseMoved(NativeMouseEvent e) {
         if (recording)
         {
             final Long nowTime = System.currentTimeMillis();
-            this.entries.add(new MoveMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            this.entries.add(new MouseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }
@@ -68,13 +63,35 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         if (recording)
         {
             final Long nowTime = System.currentTimeMillis();
-            macro.addEntry(new MoveMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            entries.add(new MouseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
+        if (recording)
+        {
+            final Long nowTime = System.currentTimeMillis();
+            int code = Keys.jnativeToAwtCodes(e.getKeyCode());
+            if (code != -1)
+            {
+                entries.add(new KeyPressMacro(code, (int)(nowTime-lastEventTime)));
+                lastEventTime = nowTime;
+            }
+        }
+    }
 
+    public void nativeKeyReleased(NativeKeyEvent e) {
+        if (recording)
+        {
+            final Long nowTime = System.currentTimeMillis();
+            int code = Keys.jnativeToAwtCodes(e.getKeyCode());
+            if (code != -1)
+            {
+                entries.add(new KeyReleaseMacro(code, (int)(nowTime-lastEventTime)));
+                lastEventTime = nowTime;
+            }
+        }
     }
 
     public void nativeKeyTyped(NativeKeyEvent e) {
@@ -87,12 +104,36 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     }
 
     @Override
-    public void nativeMousePressed(NativeMouseEvent nativeMouseEvent) {
-
+    public void nativeMousePressed(NativeMouseEvent e) {
+        if (recording)
+        {
+            final Long nowTime = System.currentTimeMillis();
+            if (e.getButton() == NativeMouseEvent.BUTTON1)
+            {
+                entries.add(new LeftClickMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            }
+            else if (e.getButton() == NativeMouseEvent.BUTTON2)
+            {
+                entries.add(new RightClickMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            }
+            lastEventTime = nowTime;
+        }
     }
 
     @Override
-    public void nativeMouseReleased(NativeMouseEvent nativeMouseEvent) {
-
+    public void nativeMouseReleased(NativeMouseEvent e) {
+        if (recording)
+        {
+            final Long nowTime = System.currentTimeMillis();
+            if (e.getButton() == NativeMouseEvent.BUTTON1)
+            {
+                entries.add(new LeftReleaseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            }
+            else if (e.getButton() == NativeMouseEvent.BUTTON2)
+            {
+                entries.add(new RightReleaseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            }
+            lastEventTime = nowTime;
+        }
     }
 }

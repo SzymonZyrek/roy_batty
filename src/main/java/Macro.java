@@ -33,7 +33,25 @@ public class Macro {
                 switch (line.charAt(0))
                 {
                     case 'M':
-                        entries.add(MoveMacro.fromString(line));
+                        entries.add(new MouseMacro(line));
+                        break;
+                    case 'L':
+                        entries.add(new LeftClickMacro(line));
+                        break;
+                    case 'l':
+                        entries.add(new LeftReleaseMacro(line));
+                        break;
+                    case 'R':
+                        entries.add(new RightClickMacro(line));
+                        break;
+                    case 'r':
+                        entries.add(new RightReleaseMacro(line));
+                        break;
+                    case 'K':
+                        entries.add(new KeyPressMacro(line));
+                        break;
+                    case 'k':
+                        entries.add(new KeyReleaseMacro(line));
                         break;
                     default:
                         RoyBatty.logError("Uknown macro entry: "+line);
@@ -53,10 +71,5 @@ public class Macro {
 
     public ArrayList<MacroEntry> getEntries() {
         return this.entries;
-    }
-
-    public void addEntry(final MacroEntry entry)
-    {
-        this.entries.add(entry);
     }
 }
