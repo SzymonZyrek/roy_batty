@@ -3,15 +3,20 @@ package edu.szyrek.roybatty.screens;
 import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.hotkey.Hotkey;
+import edu.szyrek.roybatty.hotkey.HotkeyListener;
 import edu.szyrek.roybatty.hotkey.MacroAssignment;
 import edu.szyrek.roybatty.macro.Macro;
+import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 import java.security.Key;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +24,9 @@ import java.util.concurrent.ExecutionException;
 
 public class AssignmentsScreen extends JPanel
 {
+    @Setter
     private Set<Integer> activatedCodes = new HashSet<>();
+    @Setter
     private Set<Integer> activeCodes = new HashSet<>();
 
     public AssignmentsScreen()
@@ -48,39 +55,11 @@ public class AssignmentsScreen extends JPanel
         JButton keyButton = new JButton("hotkey");
 
         CompletableFuture<Integer> future = new CompletableFuture<>();
-        final NativeKeyListener listener;
+        final HotkeyListener listener;
 
-        listener = new NativeKeyListener()
-        {
-            @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
-            @Override
-            public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent)
-            {
-                activatedCodes.add(nativeKeyEvent.getKeyCode());
-                activeCodes.add(nativeKeyEvent.getKeyCode());
-            }
-            @Override
-            public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent)
-            {
-                activeCodes.remove(nativeKeyEvent.getKeyCode());
-                if (activeCodes.size() == 0)
-                {
-                    final StringBuilder builder = new StringBuilder();
-                    for (Integer i: activatedCodes)
-                    {
-                        builder.append(KeyMappings.nativeCodesToText(i) + "+");
-                    }
-                    String result = builder.toString();
-                    if (result.length() > 0)
-                    {
-                        result = result.substring(0, result.length()-1);
-                    }
-                    keyButton.setText(result);
-                    RoyBatty.getAssignments().setActive(true);
-                    future.complete(0);
-                }
-            }
-        };
+        listener = new HotkeyListener(activatedCodes, activeCodes, keyButton);
+        listener.setFuture(future);
+
         keyButton.addActionListener(e ->
         {
             keyButton.setText("???");
@@ -90,8 +69,10 @@ public class AssignmentsScreen extends JPanel
             {
                 try
                 {
-                    future.get();
+                    listener.getFuture().get();
                     GlobalScreen.removeNativeKeyListener(listener);
+                    RoyBatty.getAssignments().setActive(true);
+                    listener.setFuture(new CompletableFuture<>());
                 }
                 catch (InterruptedException|ExecutionException ex)
                 {
@@ -103,6 +84,19 @@ public class AssignmentsScreen extends JPanel
 
         JTextField fileField = new JTextField("/macro/file");
         assignmentPanel.add(fileField);
+        fileField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e)
+            {
+                RoyBatty.getAssignments().setActive(false);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                RoyBatty.getAssignments().setActive(true);
+            }
+        });
 
         JCheckBox repeatCheckbox = new JCheckBox("repeat");
         assignmentPanel.add(repeatCheckbox);
@@ -110,11 +104,18 @@ public class AssignmentsScreen extends JPanel
         JButton assignButton = new JButton("Assign");
         assignButton.addActionListener(e ->
         {
+            Set<Integer> codes = new HashSet<>();
+            for (String s: keyButton.getText().split("\\+"))
+            {
+                codes.add(KeyMappings.textToJnativeCodes(s));
+            }
+
             RoyBatty.getAssignments().assign(
-                    new Hotkey(activatedCodes),
+                    new Hotkey(codes),
                     new MacroAssignment(Macro.loadMacroFile(fileField.getText()), repeatCheckbox.isSelected())
             );
-            activatedCodes = new HashSet<>();
+
+            listener.setActivatedCodes(activatedCodes);
         });
         assignButton.setSize(158, 25);
         assignmentPanel.add(assignButton);
