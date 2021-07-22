@@ -49,6 +49,8 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <finalName>${project.artifactId}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>
@@ -60,6 +62,16 @@
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <!-- put the default-jar in the none phase to skip it from being created -->
+                        <phase>none</phase>
                     </execution>
                 </executions>
             </plugin>
