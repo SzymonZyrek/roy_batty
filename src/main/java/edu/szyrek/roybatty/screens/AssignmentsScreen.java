@@ -2,6 +2,7 @@ package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.hotkey.HotkeyListener;
 import edu.szyrek.roybatty.hotkey.MacroAssignment;
@@ -38,7 +39,7 @@ public class AssignmentsScreen extends JPanel
 
     public JButton createAddButton()
     {
-        JButton addButton = new JButton(RoyBatty.ADD_LABEL);
+        JButton addButton = new JButton(RoyBattyConfig.getConfig().getAddLabel());
         addButton.addActionListener(e ->
         {
             addAction();

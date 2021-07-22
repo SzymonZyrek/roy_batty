@@ -1,7 +1,7 @@
 package edu.szyrek.roybatty.screens;
 
 import edu.szyrek.roybatty.RoyBatty;
-import edu.szyrek.roybatty.screens.MainScreen;
+import edu.szyrek.roybatty.RoyBattyConfig;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.GlobalScreen;
@@ -24,7 +24,7 @@ public class SwingFrame extends JFrame implements WindowListener
         GlobalScreen.setEventDispatcher(new SwingDispatchService());
 
         setTitle(RoyBatty.APPLICATION_NAME + ":" + RoyBatty.APPLICATION_VERSION);
-        setBounds(RoyBatty.WINDOW_STARTX, RoyBatty.WINDOW_STARTY, RoyBatty.WINDOW_WIDTH, RoyBatty.WINDOW_HEIGHT);
+        setBounds(RoyBattyConfig.getConfig().getWindowStartX(), RoyBattyConfig.getConfig().getWindowStartY(), RoyBattyConfig.getConfig().getWindowWidth(), RoyBattyConfig.getConfig().getWindowHeight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
         setVisible(true);

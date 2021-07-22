@@ -1,6 +1,7 @@
 package edu.szyrek.roybatty.macro;
 
 import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.macro.entry.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,9 @@ public class Macro {
 
     public void saveMacroFile(final String fileName)
     {
-        final String filePath = RoyBatty.MACROS_PATH + File.separator + fileName;
+        final String filePath = RoyBattyConfig.getConfig().getMacrosPath() + File.separator + fileName;
 
-        try (final PrintWriter pointsWriter = new PrintWriter(filePath, RoyBatty.FILE_ENCODING))
+        try (final PrintWriter pointsWriter = new PrintWriter(filePath, RoyBattyConfig.getConfig().getFileEncoding()))
         {
             for (final MacroEntry entry: entries)
             {
@@ -48,7 +49,7 @@ public class Macro {
 
     public static Macro loadMacroFile(final String fileName)
     {
-        final String filePath = RoyBatty.MACROS_PATH + File.separator + fileName;
+        final String filePath = RoyBattyConfig.getConfig().getMacrosPath() + File.separator + fileName;
         final ArrayList<MacroEntry> entries = new ArrayList<>();
         if (!Files.exists(Paths.get(filePath)))
         {

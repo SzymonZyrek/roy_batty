@@ -24,32 +24,15 @@ public class RoyBatty
 {
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
-
-    public final static int WINDOW_WIDTH = RoyBattyConfig.getConfig().getWindowWidth();
-    public final static int WINDOW_HEIGHT = RoyBattyConfig.getConfig().getWindowHeight();
-    public final static int WINDOW_STARTX = RoyBattyConfig.getConfig().getWindowStartX();
-    public final static int WINDOW_STARTY = RoyBattyConfig.getConfig().getWindowStartX();
-    public final static int RECORD_BUTTON = RoyBattyConfig.getConfig().getRecordButton();
-    public final static int PLAY_BUTTON = RoyBattyConfig.getConfig().getPlayButton();
-    public final static String FILE_ENCODING = RoyBattyConfig.getConfig().getFileEncoding();
-    public final static String MACRO_FILE_NAME = RoyBattyConfig.getConfig().getMacroName();
-    public final static String RECORD_LABEL = RoyBattyConfig.getConfig().getRecLabel();
-    public final static String ADD_LABEL = RoyBattyConfig.getConfig().getAddLabel();
-    public final static String PLAY_LABEL = RoyBattyConfig.getConfig().getPlayLabel();
-    public final static String STOP_LABEL = RoyBattyConfig.getConfig().getStopLabel();
-    public final static String SAVE_LABEL = RoyBattyConfig.getConfig().getSaveLabel();
-    public final static String LOAD_LABEL = RoyBattyConfig.getConfig().getLoadLabel();
-    public final static String MACROS_PATH = RoyBattyConfig.getConfig().getMacrosPath();
-
     public final static String CONFIG_PATH = "./roy_batty.json";
 
     static
     {
-        if (!Files.exists(Paths.get(MACROS_PATH)))
+        if (!Files.exists(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())))
         {
             try
             {
-                Files.createDirectories(Paths.get(MACROS_PATH));
+                Files.createDirectories(Paths.get(RoyBattyConfig.getConfig().getMacrosPath()));
             }
             catch (IOException e)
             {
@@ -71,14 +54,14 @@ public class RoyBatty
     {
         try
         {
-            Files.list(Paths.get(RoyBatty.MACROS_PATH)).forEach(path->
+            Files.list(Paths.get(RoyBattyConfig.getConfig().getMacrosPath())).forEach(path->
             {
                 registerMacro(path.getFileName().toString());
             });
         }
         catch (IOException e)
         {
-            RoyBatty.logException("Problem loading macros list from [" + MACROS_PATH + "]: ", e);
+            RoyBatty.logException("Problem loading macros list from [" + RoyBattyConfig.getConfig().getMacrosPath() + "]: ", e);
         }
     }
 
