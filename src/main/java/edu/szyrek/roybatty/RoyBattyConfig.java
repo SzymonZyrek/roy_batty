@@ -37,6 +37,9 @@ public class RoyBattyConfig
     private String macrosPath = "./macros";
     @Getter
     @Setter
+    private String assignmentsPath = "./assignments.conf";
+    @Getter
+    @Setter
     private String macroName = "MyMacro";
     @Getter
     @Setter

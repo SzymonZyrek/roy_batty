@@ -38,6 +38,7 @@ public class ConfigScreen extends JPanel
     private JButton playButtonField;
     private TextField fileEncodingField;
     private TextField macrosPathField;
+    private TextField assignmentsPathField;
     private TextField macroNameField;
     private TextField recLabelField;
     private TextField addLabelField;
@@ -174,6 +175,14 @@ public class ConfigScreen extends JPanel
         macrosPathPanel.add(macrosPathField);
         add(macrosPathPanel);
 
+        JPanel assignmentsPathPanel = new JPanel();
+        assignmentsPathPanel.setLayout(new BoxLayout(assignmentsPathPanel, BoxLayout.X_AXIS));
+        JLabel assignmentsPathLabel = new JLabel("Assignments file");
+        assignmentsPathPanel.add(assignmentsPathLabel);
+        assignmentsPathField = new TextField(RoyBattyConfig.getConfig().getAssignmentsPath());
+        assignmentsPathPanel.add(assignmentsPathField);
+        add(assignmentsPathPanel);
+
         JPanel macroNamePanel = new JPanel();
         macroNamePanel.setLayout(new BoxLayout(macroNamePanel, BoxLayout.X_AXIS));
         JLabel macroNameLabel = new JLabel("Macro name");
@@ -260,6 +269,7 @@ public class ConfigScreen extends JPanel
             RoyBattyConfig.getConfig().setPlayButton(playButtonField.getText());
             RoyBattyConfig.getConfig().setFileEncoding(fileEncodingField.getText());
             RoyBattyConfig.getConfig().setMacrosPath(macrosPathField.getText());
+            RoyBattyConfig.getConfig().setAssignmentsPath(assignmentsPathField.getText());
             RoyBattyConfig.getConfig().setMacroName(macroNameField.getText());
             RoyBattyConfig.getConfig().setRecLabel(recLabelField.getText());
             RoyBattyConfig.getConfig().setPlayLabel(playLabelField.getText());
