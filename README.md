@@ -1,5 +1,4 @@
-# roy_batty 
-###        a mouse/keyboard macro recorder with unlimited hotkey mapping capabilities.
+# mouse/keyboard macro recorder/player and hotkey mapper
 
 ## Features:
 - recording keyboard/mouse macros
