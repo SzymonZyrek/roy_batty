@@ -24,8 +24,6 @@ public class RecorderScreen extends JPanel
     private JTextField fileName;
     private JLabel statusBar;
 
-    private Assignments assignments;
-
     public JButton createRecordButton()
     {
         JButton theRecordButton = new JButton(RoyBatty.RECORD_LABEL);
@@ -140,9 +138,8 @@ public class RecorderScreen extends JPanel
     public RecorderScreen()
     {
         craeteGUI();
-        assignments = new Assignments();
-        assignments.assign(RoyBatty.RECORD_BUTTON, () -> recStopAction());
-        assignments.assign(RoyBatty.PLAY_BUTTON, () -> playStopAction());
+        RoyBatty.getAssignments().assign(RoyBatty.RECORD_BUTTON, () -> recStopAction());
+        RoyBatty.getAssignments().assign(RoyBatty.PLAY_BUTTON, () -> playStopAction());
     }
 
     private void recStopAction()

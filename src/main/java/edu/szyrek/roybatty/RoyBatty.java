@@ -1,6 +1,8 @@
 package edu.szyrek.roybatty;
 
+import edu.szyrek.roybatty.hotkey.Assignments;
 import edu.szyrek.roybatty.screens.SwingFrame;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -22,6 +24,7 @@ public class RoyBatty
     public final static String APPLICATION_VERSION = "0.0.1";
     public final static String MACRO_FILE_NAME = "MyMacro";
     public final static String RECORD_LABEL = "Rec";
+    public final static String ADD_LABEL = "Add";
     public final static String PLAY_LABEL = "Play";
     public final static String STOP_LABEL = "Stop";
     public final static String SAVE_LABEL = "Save";
@@ -29,6 +32,9 @@ public class RoyBatty
 
     @Setter
     private static JLabel statusBar;
+    @Getter
+    private static final Assignments assignments = new Assignments();
+
 
     public static void main(String[] args)
     {

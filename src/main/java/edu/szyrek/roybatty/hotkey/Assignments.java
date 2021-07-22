@@ -1,6 +1,5 @@
 package edu.szyrek.roybatty.hotkey;
 
-import edu.szyrek.roybatty.macro.Macro;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
@@ -20,6 +19,11 @@ public class Assignments  implements NativeKeyListener
     public void assign(final Integer keyCode, final Assignment assignment)
     {
         assignmentMap.put(keyCode, assignment);
+    }
+
+    public void unassign(final Integer keyCode)
+    {
+        assignmentMap.remove(keyCode);
     }
 
     @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}
