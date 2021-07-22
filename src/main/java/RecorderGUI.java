@@ -23,7 +23,7 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
         GlobalScreen.setEventDispatcher(new SwingDispatchService());
         GlobalScreen.addNativeKeyListener(this);
 
-        setTitle(RoyBatty.APPLICATION_NAME+":"+RoyBatty.APPLICATION_VERSION);
+        setTitle(RoyBatty.APPLICATION_NAME + ":" + RoyBatty.APPLICATION_VERSION);
         setBounds(100, 100, 450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -32,20 +32,24 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
         btnStartRecording = new JButton("Start Recording");
         btnStartRecording.addActionListener(e -> {
             if (recorder.isRecording()) {
+                btnStartRecording.setText("Start Recording");
                 recorder.stopRecording();
             } else {
+                btnStartRecording.setText("Stop Recording");
                 recorder.startRecording();
             }
         });
         btnStartRecording.setBounds(12, 163, 158, 25);
         getContentPane().add(btnStartRecording);
 
-        JTextField fileName =  new JTextField(RoyBatty.MACRO_FILE_NAME);
+        JTextField fileName = new JTextField(RoyBatty.MACRO_FILE_NAME);
         fileName.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
             }
+
             public void removeUpdate(DocumentEvent e) {
             }
+
             public void insertUpdate(DocumentEvent e) {
             }
         });
@@ -79,11 +83,11 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
         getContentPane().add(statusBar);
         RoyBatty.setStatusBar(statusBar);
 
-        JLabel lblPresssTo = new JLabel("Press \""+ NativeKeyEvent.getKeyText(RoyBatty.RECORD_BUTTON) +"\" to start/stop recording.");
+        JLabel lblPresssTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.RECORD_BUTTON) + "\" to start/stop recording.");
         lblPresssTo.setBounds(12, 81, 400, 16);
         getContentPane().add(lblPresssTo);
 
-        JLabel lblPressdTo = new JLabel("Press \""+ NativeKeyEvent.getKeyText(RoyBatty.PLAY_BUTTON) +"\" to start/stop a playing.");
+        JLabel lblPressdTo = new JLabel("Press \"" + NativeKeyEvent.getKeyText(RoyBatty.PLAY_BUTTON) + "\" to start/stop a playing.");
         lblPressdTo.setBounds(12, 111, 400, 16);
         getContentPane().add(lblPressdTo);
 
@@ -116,7 +120,6 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
         }
 
 
-
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
         logger.setLevel(Level.OFF);
         Handler[] handlers = Logger.getLogger("").getHandlers();
@@ -136,19 +139,24 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
     }
 
     public void windowClosing(WindowEvent e) {
-        /* Unimplemented */ }
+        /* Unimplemented */
+    }
 
     public void windowIconified(WindowEvent e) {
-        /* Unimplemented */ }
+        /* Unimplemented */
+    }
 
     public void windowDeiconified(WindowEvent e) {
-        /* Unimplemented */ }
+        /* Unimplemented */
+    }
 
     public void windowActivated(WindowEvent e) {
-        /* Unimplemented */ }
+        /* Unimplemented */
+    }
 
     public void windowDeactivated(WindowEvent e) {
-        /* Unimplemented */ }
+        /* Unimplemented */
+    }
 
     @Override
     public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
@@ -160,13 +168,17 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
 
     }
 
-    @Override
-    public void nativeKeyReleased(NativeKeyEvent e) {
+    private void handleRecordHotkey(final NativeKeyEvent e) {
         if (e.getKeyCode() == RoyBatty.RECORD_BUTTON && !recorder.isRecording()) {
+            btnStartRecording.setText("Stop Recording");
             recorder.startRecording();
         } else if (e.getKeyCode() == RoyBatty.RECORD_BUTTON) {
+            btnStartRecording.setText("Start Recording");
             recorder.stopRecording();
         }
+    }
+
+    private void handlePlayHotkey(final NativeKeyEvent e) {
         if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && recorder.isRecording()) {
             RoyBatty.logError("Stop recording first!");
         } else if (e.getKeyCode() == RoyBatty.PLAY_BUTTON && !recorder.isRecording()) {
@@ -186,5 +198,11 @@ public class RecorderGUI extends JFrame implements WindowListener, NativeKeyList
                 macroPlayer.stop();
             }
         }
+    }
+
+    @Override
+    public void nativeKeyReleased(final NativeKeyEvent e) {
+        handleRecordHotkey(e);
+        handlePlayHotkey(e);
     }
 }

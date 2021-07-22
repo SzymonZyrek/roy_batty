@@ -53,6 +53,9 @@ public class Macro {
                     case 'k':
                         entries.add(new KeyReleaseMacro(line));
                         break;
+                    case 'S':
+                        entries.add(new ScrollMacro(line));
+                        break;
                     default:
                         RoyBatty.logError("Uknown macro entry: "+line);
                 }

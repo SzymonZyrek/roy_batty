@@ -3,21 +3,18 @@ import java.util.ArrayList;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
-import org.jnativehook.mouse.NativeMouseEvent;
-import org.jnativehook.mouse.NativeMouseListener;
-import org.jnativehook.mouse.NativeMouseMotionListener;
+import org.jnativehook.mouse.*;
 
-public class Recorder implements NativeKeyListener, NativeMouseListener, NativeMouseMotionListener {
+public class Recorder implements NativeKeyListener, NativeMouseListener, NativeMouseWheelListener, NativeMouseMotionListener {
     private volatile boolean recording = false;
-    private RecorderGUI gui;
     private Long lastEventTime;
     private ArrayList<MacroEntry> entries;
     private Macro macro;
 
     public Recorder(final RecorderGUI gui) {
-        this.gui = gui;
         GlobalScreen.addNativeKeyListener(this);
         GlobalScreen.addNativeMouseMotionListener(this);
+        GlobalScreen.addNativeMouseWheelListener(this);
         GlobalScreen.addNativeMouseListener(this);
     }
 
@@ -35,14 +32,12 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
 
     public void startRecording() {
         this.entries = new ArrayList<>();
-        gui.btnStartRecording.setText("Stop Recording");
         recording = (true);
         lastEventTime = System.currentTimeMillis();
     }
 
     public void stopRecording() {
         macro = new Macro(entries);
-        gui.btnStartRecording.setText("Start Recording");
         recording = (false);
         macro.printMacro();
         RoyBatty.logInfo("MACRO IN MEMORY");
@@ -133,6 +128,16 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
             {
                 entries.add(new RightReleaseMacro(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
             }
+            lastEventTime = nowTime;
+        }
+    }
+
+    @Override
+    public void nativeMouseWheelMoved(NativeMouseWheelEvent e) {
+        if (recording)
+        {
+            final Long nowTime = System.currentTimeMillis();
+            entries.add(new ScrollMacro(-e.getWheelRotation(), (int)(nowTime-lastEventTime)));
             lastEventTime = nowTime;
         }
     }
