@@ -5,9 +5,13 @@ import javax.swing.*;
 public class MainScreen extends JTabbedPane {
     public MainScreen()
     {
-        final RecorderScreen recorderScreen = new RecorderScreen();
         final ImageIcon icon = new ImageIcon("test.png");
+
+        final RecorderScreen recorderScreen = new RecorderScreen();
         addTab("Record", icon, recorderScreen,
                 "Record and play macros");
+        final AssignmentsScreen assignmentsScreen = new AssignmentsScreen();
+        addTab("Hotkeys", icon, assignmentsScreen,
+                "Assign macros to hotkeys");
     }
 }

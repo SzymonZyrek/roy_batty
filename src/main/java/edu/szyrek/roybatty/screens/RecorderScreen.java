@@ -12,6 +12,8 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import edu.szyrek.roybatty.recorder.Recorder;
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class RecorderScreen extends JPanel
 {
@@ -177,14 +179,25 @@ public class RecorderScreen extends JPanel
             if (!macroPlayer.isRunning())
             {
                 setMacroPlayer(macroPlayer);
+                macroPlayer.setFuture(new CompletableFuture<>());
                 macroPlayer.start();
                 playButton.setText(RoyBatty.STOP_LABEL);
             }
             else
             {
                 macroPlayer.stop();
-                playButton.setText(RoyBatty.PLAY_LABEL);
             }
+            new Thread(()->{
+                try
+                {
+                    macroPlayer.getFuture().get();
+                    playButton.setText(RoyBatty.PLAY_LABEL);
+                }
+                catch (InterruptedException|ExecutionException e)
+                {
+                    RoyBatty.logException("Failed to turn off player", e);
+                }
+            }).start();
         }
     }
 }

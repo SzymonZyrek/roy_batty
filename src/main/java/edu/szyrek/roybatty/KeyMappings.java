@@ -9,6 +9,8 @@ import java.util.Map;
 public class KeyMappings {
     private static Map<Integer,Integer> _awtToJnativeCodes = new HashMap<>();
     private static Map<Integer,Integer> _jnativeToAwtCodes = new HashMap<>();
+    private static Map<String,Integer> _textToJnativeCodes = new HashMap<>();
+
 
     public static int awtToJnativeCodes(int awtCode)
     {
@@ -18,7 +20,7 @@ public class KeyMappings {
         }
         else
         {
-            RoyBatty.logError("Not mapped key code: "+awtCode);
+            RoyBatty.logError("Not mapped awt key code: "+awtCode);
             return -1;
         }
     }
@@ -31,7 +33,20 @@ public class KeyMappings {
         }
         else
         {
-            RoyBatty.logError("Not mapped key code: "+awtCode);
+            RoyBatty.logError("Not mapped native key code: "+awtCode);
+            return -1;
+        }
+    }
+
+    public static int textToJnativeCodes(final String text)
+    {
+        if (_textToJnativeCodes.containsKey(text))
+        {
+            return _textToJnativeCodes.get(text);
+        }
+        else
+        {
+            RoyBatty.logError("Not mapped key text: "+text);
             return -1;
         }
     }
@@ -129,6 +144,7 @@ public class KeyMappings {
         {
             Integer value = _awtToJnativeCodes.get(key);
             _jnativeToAwtCodes.put(value, key);
+            _textToJnativeCodes.put(NativeKeyEvent.getKeyText(value), value);
         }
     }
 }

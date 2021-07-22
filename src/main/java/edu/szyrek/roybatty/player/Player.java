@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.util.concurrent.CompletableFuture;
 
 public class Player implements Runnable
 {
@@ -14,6 +15,10 @@ public class Player implements Runnable
     @Getter
     @Setter
     private volatile boolean running = false;
+    @Getter
+    @Setter
+    private CompletableFuture<Integer> future;
+    private boolean repeat;
 
     public Player(final Macro macro)
     {
@@ -27,6 +32,12 @@ public class Player implements Runnable
 
     public void start()
     {
+        start(false);
+    }
+
+    public void start(final boolean repeat)
+    {
+        this.repeat = repeat;
         setRunning(true);
         final Thread macroThread = new Thread(this);
         macroThread.start();
@@ -46,6 +57,14 @@ public class Player implements Runnable
                         break;
                     entry.performEntry(bot);
                 }
+                if (!repeat)
+                {
+                    running = false;
+                }
+            }
+            if (this.future != null)
+            {
+                this.future.complete(0);
             }
         }
         catch (AWTException e)
