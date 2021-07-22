@@ -1,5 +1,10 @@
+package edu.szyrek.roybatty.macro;
+
 import java.util.ArrayList;
 
+import edu.szyrek.roybatty.Keys;
+import edu.szyrek.roybatty.RoyBatty;
+import edu.szyrek.roybatty.screens.RecorderScreen;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
@@ -11,7 +16,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     private ArrayList<MacroEntry> entries;
     private Macro macro;
 
-    public Recorder(final RecorderGUI gui) {
+    public Recorder(final RecorderScreen gui) {
         GlobalScreen.addNativeKeyListener(this);
         GlobalScreen.addNativeMouseMotionListener(this);
         GlobalScreen.addNativeMouseWheelListener(this);

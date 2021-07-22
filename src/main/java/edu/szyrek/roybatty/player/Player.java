@@ -1,10 +1,12 @@
+package edu.szyrek.roybatty.macro;
+
 import java.awt.AWTException;
 import java.awt.Robot;
 
 public class Player implements Runnable {
     final Macro macro;
 
-    volatile boolean running = false;
+    public volatile boolean running = false;
 
     public Player(final Macro macro) {
         this.macro = macro;

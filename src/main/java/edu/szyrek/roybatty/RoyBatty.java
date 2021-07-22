@@ -11,7 +11,7 @@ public class RoyBatty {
     public final static String MACRO_FILE_NAME = "Macro.txt";
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new RecorderGUI());
+        SwingUtilities.invokeLater(() -> new SwingFrame());
     }
 
     private static JLabel statusBar;

@@ -1,22 +1,30 @@
+package edu.szyrek.roybatty.macro;
+
+import edu.szyrek.roybatty.RoyBatty;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class KeyMacro extends BaseMacro implements MacroEntry {
-    protected int key;
+public class ScrollMacro extends BaseMacro implements MacroEntry {
+    private int amount;
 
-    public KeyMacro(int key, int time)
+    protected char getLetter() {
+        return 'S';
+    }
+
+    public ScrollMacro(int amount, int time)
     {
         super(time);
-        this.key = key;
+        this.amount = amount;
     }
 
     @Override
     public String writeAsString() {
-        return super.writeAsString() + " " + this.key + " " + this.time;
+        return super.writeAsString() + " " + this.amount + " " + this.time;
     }
 
-    public KeyMacro(final String fromString) {
+    public ScrollMacro(final String fromString) {
         super(0);
         if (!fromString.startsWith(this.getLetter() + " "))
         {
@@ -30,12 +38,18 @@ public abstract class KeyMacro extends BaseMacro implements MacroEntry {
             throw new IllegalArgumentException("wrong constructor string for "+this.getClass().getSimpleName()+": "+fromString);
         }
 
-        this.key = Integer.parseInt(values.get(0));
+        this.amount = Integer.parseInt(values.get(0));
         this.time = Integer.parseInt(values.get(1));
     }
 
-    public int getKey()
-    {
-        return key;
+    @Override
+    public void performEntry(Robot bot) {
+        try {
+            Thread.sleep(this.time);
+        } catch (InterruptedException e) {
+            RoyBatty.logError(e.getMessage());
+            e.printStackTrace();
+        }
+        bot.mouseWheel(this.amount);
     }
 }

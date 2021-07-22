@@ -1,3 +1,7 @@
+package edu.szyrek.roybatty.macro;
+
+import edu.szyrek.roybatty.RoyBatty;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 

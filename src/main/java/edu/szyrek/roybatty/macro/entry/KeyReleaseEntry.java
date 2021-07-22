@@ -1,5 +1,8 @@
+package edu.szyrek.roybatty.macro;
+
+import edu.szyrek.roybatty.RoyBatty;
+
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class KeyReleaseMacro extends KeyMacro implements MacroEntry {
     public KeyReleaseMacro(int key, int time) {

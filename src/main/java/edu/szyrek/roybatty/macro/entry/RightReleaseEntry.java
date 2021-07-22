@@ -1,18 +1,22 @@
+package edu.szyrek.roybatty.macro;
+
+import edu.szyrek.roybatty.RoyBatty;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 
-public class RightClickMacro extends MouseMacro {
-    public RightClickMacro(int x, int y, int time) {
+public class RightReleaseMacro extends MouseMacro {
+    public RightReleaseMacro(int x, int y, int time) {
         super(x, y, time);
     }
 
-    public RightClickMacro(final String fromString) {
+    public RightReleaseMacro(final String fromString) {
         super(fromString);
     }
 
     @Override
     protected char getLetter() {
-        return 'R';
+        return 'r';
     }
 
     @Override
@@ -24,6 +28,6 @@ public class RightClickMacro extends MouseMacro {
             e.printStackTrace();
         }
         bot.mouseMove(this.x, this.y);
-        bot.mousePress(InputEvent.BUTTON2_DOWN_MASK);
+        bot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
     }
 }

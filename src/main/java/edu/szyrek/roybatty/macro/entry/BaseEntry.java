@@ -1,8 +1,4 @@
-import com.sun.xml.internal.rngom.parse.host.Base;
-
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
+package edu.szyrek.roybatty.macro;
 
 public abstract class BaseMacro implements MacroEntry {
     protected int time;
