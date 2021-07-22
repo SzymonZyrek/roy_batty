@@ -14,15 +14,21 @@ public class Player implements Runnable
     private final Macro macro;
     @Getter
     @Setter
-    private volatile boolean running = false;
+    private volatile boolean running;
     @Getter
     @Setter
     private CompletableFuture<Integer> future;
     private boolean repeat;
 
-    public Player(final Macro macro)
+    public Player(final Macro macro, final boolean repeat)
     {
         this.macro = macro;
+        this.repeat = repeat;
+    }
+
+    public Player(final Macro macro)
+    {
+        this(macro, false);
     }
 
     public void stop()
@@ -32,12 +38,6 @@ public class Player implements Runnable
 
     public void start()
     {
-        start(false);
-    }
-
-    public void start(final boolean repeat)
-    {
-        this.repeat = repeat;
         setRunning(true);
         final Thread macroThread = new Thread(this);
         macroThread.start();

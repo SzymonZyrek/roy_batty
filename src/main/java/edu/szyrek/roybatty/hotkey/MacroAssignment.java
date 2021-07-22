@@ -9,16 +9,18 @@ public class MacroAssignment implements Assignment
 {
     private final Macro macro;
     private Player macroPlayer;
+    private boolean repeat;
 
-    public MacroAssignment(final Macro macro)
+    public MacroAssignment(final Macro macro, final boolean repeat)
     {
         this.macro = macro;
+        this.repeat = repeat;
     }
 
     @Override
     public void run()
     {
-        macroPlayer = new Player(this.macro);
+        macroPlayer = new Player(this.macro, repeat);
         macroPlayer.setRunning(true);
         this.macroPlayer.setFuture(new CompletableFuture<>());
         macroPlayer.start();
@@ -31,6 +33,9 @@ public class MacroAssignment implements Assignment
 
     public void stop()
     {
-        this.macroPlayer.stop();
+        if (this.macro != null)
+        {
+            this.macroPlayer.stop();
+        }
     }
 }

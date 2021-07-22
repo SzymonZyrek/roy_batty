@@ -40,12 +40,15 @@ public class AssignmentsScreen extends JPanel
         JTextField fileField = new JTextField("/macro/file");
         assignmentPanel.add(fileField);
 
+        JCheckBox repeatCheckbox = new JCheckBox("repeat");
+        assignmentPanel.add(repeatCheckbox);
+
         JButton assignButton = new JButton("Assign");
         assignButton.addActionListener(e ->
         {
             RoyBatty.getAssignments().assign(
                     KeyMappings.textToJnativeCodes(keyField.getText()),
-                    new MacroAssignment(Macro.loadMacroFile(fileField.getText()))
+                    new MacroAssignment(Macro.loadMacroFile(fileField.getText()), repeatCheckbox.isSelected())
             );
         });
         assignButton.setSize(158, 25);

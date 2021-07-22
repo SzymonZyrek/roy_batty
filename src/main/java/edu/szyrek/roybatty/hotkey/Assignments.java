@@ -46,6 +46,11 @@ public class Assignments  implements NativeKeyListener
                 if (assignmentsPlaying.containsKey(event.getKeyCode()))
                 {
                     macroAssignment.stop();
+                    if (assignmentsPlaying.containsKey(event.getKeyCode()))
+                    {
+                        assignmentsPlaying.remove(event.getKeyCode());
+                    }
+                    return;
                 }
                 else
                 {
@@ -56,7 +61,10 @@ public class Assignments  implements NativeKeyListener
                     try
                     {
                         macroAssignment.getFuture().get();
-                        assignmentsPlaying.remove(event.getKeyCode());
+                        if (assignmentsPlaying.containsKey(event.getKeyCode()))
+                        {
+                            assignmentsPlaying.remove(event.getKeyCode());
+                        }
                     }
                     catch (InterruptedException|ExecutionException ex)
                     {
