@@ -1,6 +1,7 @@
 package edu.szyrek.roybatty;
 
 import edu.szyrek.roybatty.hotkey.Assignments;
+import edu.szyrek.roybatty.recorder.Recorder;
 import edu.szyrek.roybatty.screens.SwingFrame;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,8 @@ public class RoyBatty
     private static JLabel statusBar;
     @Getter
     private static final Assignments assignments = new Assignments();
+    @Getter
+    private static final Recorder macroRecorder = new Recorder();
 
 
     public static void main(String[] args)

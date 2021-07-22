@@ -19,8 +19,6 @@ public class RecorderScreen extends JPanel
 {
     @Setter
     private Player macroPlayer;
-    private final Recorder recorder = new Recorder();
-
     private JButton recordButton;
     private JButton playButton;
     private JTextField fileName;
@@ -61,14 +59,14 @@ public class RecorderScreen extends JPanel
         JButton saveButton = new JButton(RoyBatty.SAVE_LABEL);
         saveButton.addActionListener(e ->
         {
-            if (!recorder.isRecording())
+            if (!RoyBatty.getMacroRecorder().isRecording())
             {
-                if (recorder.getMacro() == null)
+                if (RoyBatty.getMacroRecorder().getMacro() == null)
                 {
                     RoyBatty.logError("Record or load something first!");
                 }
-                recorder.getMacro().saveMacroFile(fileName.getText());
-                recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
+                RoyBatty.getMacroRecorder().getMacro().saveMacroFile(fileName.getText());
+                RoyBatty.getMacroRecorder().setMacro(Macro.loadMacroFile(fileName.getText()));
             }
         });
         saveButton.setSize(121, 25);
@@ -80,9 +78,9 @@ public class RecorderScreen extends JPanel
         JButton loadButton = new JButton(RoyBatty.LOAD_LABEL);
         loadButton.addActionListener(e ->
         {
-            if (!recorder.isRecording())
+            if (!RoyBatty.getMacroRecorder().isRecording())
             {
-                recorder.setMacro(Macro.loadMacroFile(fileName.getText()));
+                RoyBatty.getMacroRecorder().setMacro(Macro.loadMacroFile(fileName.getText()));
             }
         });
         loadButton.setSize(121, 25);
@@ -146,35 +144,35 @@ public class RecorderScreen extends JPanel
 
     private void recStopAction()
     {
-        if (recorder.isRecording())
+        if (RoyBatty.getMacroRecorder().isRecording())
         {
             recordButton.setText(RoyBatty.RECORD_LABEL);
-            recorder.stopRecording();
+            RoyBatty.getMacroRecorder().stopRecording();
         }
         else
         {
             recordButton.setText(RoyBatty.STOP_LABEL);
-            recorder.startRecording();
+            RoyBatty.getMacroRecorder().startRecording();
         }
     }
 
     private void playStopAction()
     {
-        if (recorder.isRecording())
+        if (RoyBatty.getMacroRecorder().isRecording())
         {
             RoyBatty.logError("Stop recording first!");
             return;
         }
         else
         {
-            if (recorder.getMacro() == null)
+            if (RoyBatty.getMacroRecorder().getMacro() == null)
             {
                 RoyBatty.logError("Record or load something first!");
                 return;
             }
             if (macroPlayer == null)
             {
-                macroPlayer = new Player(recorder.getMacro());
+                macroPlayer = new Player(RoyBatty.getMacroRecorder().getMacro());
             }
             if (!macroPlayer.isRunning())
             {

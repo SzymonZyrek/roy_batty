@@ -1,21 +1,23 @@
 package edu.szyrek.roybatty.hotkey;
 
 import edu.szyrek.roybatty.RoyBatty;
+import lombok.Getter;
+import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class Assignments  implements NativeKeyListener
 {
     private Map<Integer, Assignment> assignmentMap = new HashMap<>();
     private Map<Integer, Assignment> assignmentsPlaying = new HashMap<>();
-
+    @Getter
+    @Setter
+    private boolean active;
 
     public Assignments()
     {
@@ -37,7 +39,7 @@ public class Assignments  implements NativeKeyListener
     @Override
     public void nativeKeyReleased(final NativeKeyEvent event)
     {
-        if (assignmentMap.containsKey(event.getKeyCode()))
+        if (active && assignmentMap.containsKey(event.getKeyCode()))
         {
             Assignment assignment = assignmentMap.get(event.getKeyCode());
             if (MacroAssignment.class.isAssignableFrom(assignment.getClass()))
