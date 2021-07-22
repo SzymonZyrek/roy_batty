@@ -1,7 +1,9 @@
 package edu.szyrek.roybatty.hotkey;
 
+import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.macro.Macro;
 import edu.szyrek.roybatty.player.Player;
+import lombok.SneakyThrows;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -26,8 +28,13 @@ public class MacroAssignment implements Assignment
         macroPlayer.start();
     }
 
+    @SneakyThrows
     public CompletableFuture<Integer> getFuture()
     {
+        while (this.macroPlayer == null)
+        {
+            Thread.sleep(100);
+        }
         return this.macroPlayer.getFuture();
     }
 

@@ -7,6 +7,7 @@ import edu.szyrek.roybatty.macro.Macro;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import javax.swing.*;
+import java.util.Locale;
 
 public class AssignmentsScreen extends JPanel
 {
@@ -47,7 +48,7 @@ public class AssignmentsScreen extends JPanel
         assignButton.addActionListener(e ->
         {
             RoyBatty.getAssignments().assign(
-                    KeyMappings.textToJnativeCodes(keyField.getText()),
+                    KeyMappings.textToJnativeCodes(keyField.getText().toUpperCase()),
                     new MacroAssignment(Macro.loadMacroFile(fileField.getText()), repeatCheckbox.isSelected())
             );
         });
@@ -58,7 +59,7 @@ public class AssignmentsScreen extends JPanel
         unssignButton.addActionListener(e ->
         {
             RoyBatty.getAssignments().unassign(
-                    KeyMappings.textToJnativeCodes(keyField.getText())
+                    KeyMappings.textToJnativeCodes(keyField.getText().toUpperCase())
             );
         });
         unssignButton.setSize(158, 25);
