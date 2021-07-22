@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class MoveMacro implements MacroEntry {
         int x = Integer.parseInt(values.get(0));
         int y = Integer.parseInt(values.get(1));
         int time = Integer.parseInt(values.get(2));
-p
+
         return new MoveMacro(x, y, time);
     }
 
