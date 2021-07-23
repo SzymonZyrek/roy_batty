@@ -1,9 +1,14 @@
 # mouse/keyboard macro recorder/player and hotkey mapper
 
 ## Features:
+
 - recording keyboard/mouse macros
 - saving/loading macros from files
 - mapping macros to hotkey combinations
+
+## Pre-requisites
+
+- java 1.8
 
 ## Building:
 
