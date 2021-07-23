@@ -58,7 +58,7 @@ To build your own release, you are going to need ```jdk 1.8``` and ```maven```.
 - you need to set macro to ```active``` on ```Assignments``` tab in order to arm it
 - re-triggering hotkey combination stops running macro
 - ```repeat``` checkbox makes macro run until re-triggered
-- you can use pre-created of network-shared macros by copying them to ```./macros``` dir
+- you can reuse pre-created or network-shared macros by simply copying them to ```./macros``` dir
 - you can edit ```roy_batty.conf``` manually
 - tweaking configuration (especially by manually editing config file) may sometimes require app restart for new values to "kick in"
 - you can supply alternative config file with ```[-c <config_file_path>]``` option
