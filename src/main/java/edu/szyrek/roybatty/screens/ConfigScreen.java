@@ -1,14 +1,11 @@
 package edu.szyrek.roybatty.screens;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.corba.se.spi.ior.ObjectKey;
-import edu.szyrek.roybatty.KeyMappings;
+
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.hotkey.HotkeyListener;
-import lombok.Getter;
 import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 
