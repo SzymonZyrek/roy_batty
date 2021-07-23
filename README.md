@@ -1,10 +1,10 @@
-# Meet ```roy_batty```, a lightweight, cross-platform keyboard and mouse macro manager
+## Meet ```roy_batty```, a lightweight, cross-platform keyboard and mouse macro manager
 
 ## Features:
 
-### *** Recording of arbitrary keyboard/mouse user input ***
-### *** Saving/loading it in form of simple text macro files ***
-### *** Mapping createad files to trigger key combinations ***
+- Recording of arbitrary keyboard/mouse user input
+- Saving/loading it in form of simple text macro files
+- Mapping createad files to trigger key combinations
 
 ## Pre-requisites
 
