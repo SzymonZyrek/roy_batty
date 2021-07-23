@@ -15,10 +15,6 @@
 ### 0.0.1
 
 https://bitbucket.org/Mexorsu/roy_batty/downloads/roy_batty.jar
-
-## Building:
-
-    mvn clean install
 	
 ## Running:
 
@@ -28,13 +24,32 @@ or just double-click roy_batty.jar
 
 ## Usage:
 
-- record some macros on "Recording" tab
-- save them using "Save" button
-- test your macros using "Play" functionality
-- assign your macros to key combinations on "Hotkeys" tab
-- use active hotkeys to replay macros on demand
-- save hotkeys tab to restore it on app restart
-- use "Config" tab for configurations
+1. record some macros on "Recording" tab
+
+![alt Record tab](https://bitbucket.org/Mexorsu/roy_batty/downloads/record_screen.png)
+
+2. save them using "Save" button
+3. test your macros using "Play" functionality
+4. assign your macros to key combinations on "Hotkeys" tab
+
+![alt Hotkeys tab](https://bitbucket.org/Mexorsu/roy_batty/downloads/hotkeys_screen.png)
+
+5. use active hotkeys to replay macros on demand
+6. save hotkeys tab to restore it on app restart
+7. use "Config" tab for configurations
+
+![alt Config tab](https://bitbucket.org/Mexorsu/roy_batty/downloads/config_screen.png)
+
+
+
+## Building:
+
+To build you're own release you are going to need jdk 1.8 and maven.
+
+1. download source package from https://bitbucket.org/Mexorsu/roy_batty/downloads/ or use git to get source
+2. cd to projects root directory
+3. run ```mvn clean install```
+4. built packages path is ./target/roy_batty.jar
 
 ## Tips:
 
