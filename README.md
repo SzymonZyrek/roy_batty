@@ -1,4 +1,4 @@
-## Meet ```roy_batty``` - a lightweight, cross-platform keyboard and mouse macro manager
+## Meet ```roy_batty``` : a lightweight, cross-platform keyboard and mouse macro manager
 
 ## Features:
 
@@ -46,7 +46,7 @@ or just double-click roy_batty.jar
 
 ## Building:
 
-To build you're own release you are going to need ```jdk 1.8``` and ```maven```.
+To build your own release, you are going to need ```jdk 1.8``` and ```maven```.
 
 1. download source package from https://bitbucket.org/Mexorsu/roy_batty/downloads/ or use ```git``` to get source
 2. cd to projects root directory
