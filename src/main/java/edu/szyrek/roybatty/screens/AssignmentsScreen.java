@@ -201,6 +201,24 @@ public class AssignmentsScreen extends JPanel
         });
 
         assignmentPanel.add(assignedCheckbox);
+
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(e ->
+        {
+            if (assignedCheckbox.isSelected())
+            {
+                RoyBatty.getAssignments().unassign(new Hotkey(keyButton.getText()));
+            }
+            hotkeysMapped.remove(keyButton);
+            macrosMapped.remove(fileField);
+            repeastsMapped.remove(repeatCheckbox);
+            activesMapped.remove(assignedCheckbox);
+            remove(assignmentPanel);
+            repaint();
+            revalidate();
+        });
+        assignmentPanel.add(removeButton);
+
         add(assignmentPanel);
         repaint();
         revalidate();

@@ -25,7 +25,9 @@
 
 ## Tips:
 
+- you must set macro to "active" on assignments tab in order to arm it
 - re-triggering hotkey combination stops running macro
+- "repeat" checkbox makes macro run until re-triggered  
 - you can edit roy_batty.conf manually
 - you can supply alternative config file with -c option
 - you can manually create/edit hotkey assignments, by default they're in assignments.conf
