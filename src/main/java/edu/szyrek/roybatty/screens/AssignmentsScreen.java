@@ -2,7 +2,6 @@ package edu.szyrek.roybatty.screens;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.hotkey.*;
@@ -32,6 +31,10 @@ public class AssignmentsScreen extends JPanel
     private Set<Integer> activatedCodes = new HashSet<>();
     @Setter
     private Set<Integer> activeCodes = new HashSet<>();
+    private List<JButton> hotkeysMapped = new ArrayList<>();
+    private List<JComboBox> macrosMapped = new ArrayList<>();
+    private List<JCheckBox> repeastsMapped = new ArrayList<>();
+    private List<JCheckBox> activesMapped = new ArrayList<>();
 
     @SneakyThrows
     private void loadAssignments()
@@ -91,14 +94,13 @@ public class AssignmentsScreen extends JPanel
     private void saveAction()
     {
         final List<AssignmentEntry> entries = new ArrayList<>();
-        for (final Hotkey key: RoyBatty.getAssignments().getAssignmentMap().keySet())
+        for (int i = 0; i < hotkeysMapped.size(); i++)
         {
-            final Assignment value = RoyBatty.getAssignments().getAssignmentMap().get(key);
-            if (MacroAssignment.class.isAssignableFrom(value.getClass()))
-            {
-                final Macro macro = ((MacroAssignment)value).getMacro();
-                entries.add(new AssignmentEntry(key, macro.getName(), false, false));
-            }
+            JButton hotkeyButton = hotkeysMapped.get(i);
+            JComboBox macroField = macrosMapped.get(i);
+            JCheckBox repeatField = repeastsMapped.get(i);
+            JCheckBox activeField = activesMapped.get(i);
+            entries.add(new AssignmentEntry(new Hotkey(hotkeyButton.getText()), (String)macroField.getSelectedItem(),   repeatField.isSelected(), activeField.isSelected()));
         }
 
         final ObjectMapper om = new ObjectMapper();
@@ -124,7 +126,7 @@ public class AssignmentsScreen extends JPanel
         assignmentPanel.setLayout(new BoxLayout(assignmentPanel, BoxLayout.X_AXIS));
 
         JButton keyButton = new JButton(hotkey!=null?hotkey.toString():"*");
-
+        hotkeysMapped.add(keyButton);
         CompletableFuture<Integer> future = new CompletableFuture<>();
         final HotkeyListener listener;
 
@@ -154,6 +156,7 @@ public class AssignmentsScreen extends JPanel
         assignmentPanel.add(keyButton);
 
         JComboBox<String> fileField = new JComboBox<>(RoyBatty.getAvailableMacros().toArray(new String[0]));
+        macrosMapped.add(fileField);
         if (macroName != null)
         {
             fileField.setSelectedItem(macroName);
@@ -174,10 +177,12 @@ public class AssignmentsScreen extends JPanel
         });
 
         JCheckBox repeatCheckbox = new JCheckBox("repeat");
+        repeastsMapped.add(repeatCheckbox);
         repeatCheckbox.setSelected(repeat);
         assignmentPanel.add(repeatCheckbox);
 
         JCheckBox assignedCheckbox = new JCheckBox("active");
+        activesMapped.add(assignedCheckbox);
         assignedCheckbox.setSelected(active);
         assignedCheckbox.addItemListener(e -> {
             if(e.getStateChange() == ItemEvent.SELECTED)
