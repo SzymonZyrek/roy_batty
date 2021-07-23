@@ -10,6 +10,12 @@
 
 - java 1.8
 
+## Releases:
+
+### 0.0.1
+
+https://bitbucket.org/Mexorsu/roy_batty/downloads/roy_batty.jar
+
 ## Building:
 
     mvn clean install
