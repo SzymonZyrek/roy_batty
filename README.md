@@ -1,4 +1,4 @@
-# Meet roy_batty, a lightweight, cross-platform keyboard and mouse macro manager
+# Meet ```roy_batty```, a lightweight, cross-platform keyboard and mouse macro manager
 
 ## Features:
 
