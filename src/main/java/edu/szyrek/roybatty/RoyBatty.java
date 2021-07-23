@@ -7,6 +7,7 @@ import edu.szyrek.roybatty.screens.SwingFrame;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jnativehook.GlobalScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +17,20 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 @Slf4j
 public class RoyBatty
 {
+    static
+    {
+        LogManager.getLogManager().reset();
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.OFF);
+    }
+
     public final static String APPLICATION_NAME = "roy_batty";
     public final static String APPLICATION_VERSION = "0.0.1";
     public static String CONFIG_PATH = "./roy_batty.conf";
@@ -72,7 +83,6 @@ public class RoyBatty
         {
             RoyBatty.logException("Problem loading macros list from [" + RoyBattyConfig.getConfig().getMacrosPath() + "]: ", e);
         }
-
         SwingUtilities.invokeLater(() -> new SwingFrame());
     }
 

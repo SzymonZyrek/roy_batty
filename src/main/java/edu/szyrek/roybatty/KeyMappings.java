@@ -38,15 +38,15 @@ public class KeyMappings {
         }
     }
 
-    public static int jnativeToAwtCodes(int awtCode)
+    public static int jnativeToAwtCodes(int nativeCode)
     {
-        if (_jnativeToAwtCodes.containsKey(awtCode))
+        if (_jnativeToAwtCodes.containsKey(nativeCode))
         {
-            return _jnativeToAwtCodes.get(awtCode);
+            return _jnativeToAwtCodes.get(nativeCode);
         }
         else
         {
-            RoyBatty.logError("Not mapped native key code: "+awtCode);
+            RoyBatty.logError("Not mapped native key code: "+nativeCode);
             return -1;
         }
     }

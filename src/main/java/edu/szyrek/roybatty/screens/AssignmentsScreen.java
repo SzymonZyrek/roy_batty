@@ -2,9 +2,11 @@ package edu.szyrek.roybatty.screens;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.szyrek.roybatty.KeyMappings;
 import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.hotkey.*;
+import edu.szyrek.roybatty.lookandfeel.Styled;
 import edu.szyrek.roybatty.macro.Macro;
 
 import lombok.Setter;
@@ -12,6 +14,7 @@ import lombok.SneakyThrows;
 import org.jnativehook.GlobalScreen;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -70,18 +73,17 @@ public class AssignmentsScreen extends JPanel
 
     public JButton createAddButton()
     {
-        JButton addButton = new JButton(RoyBattyConfig.getConfig().getAddLabel());
+        JButton addButton = Styled.newStyledButton(RoyBattyConfig.getConfig().getAddLabel());
         addButton.addActionListener(e ->
         {
             addAction();
         });
-        addButton.setSize(158, 25);
         return addButton;
     }
 
     public JButton createSaveButton()
     {
-        JButton saveButton = new JButton(RoyBattyConfig.getConfig().getSaveLabel());
+        JButton saveButton = Styled.newStyledButton(RoyBattyConfig.getConfig().getSaveLabel());
         saveButton.addActionListener(e ->
         {
             saveAction();
@@ -100,13 +102,24 @@ public class AssignmentsScreen extends JPanel
             JComboBox macroField = macrosMapped.get(i);
             JCheckBox repeatField = repeastsMapped.get(i);
             JCheckBox activeField = activesMapped.get(i);
-            entries.add(new AssignmentEntry(new Hotkey(hotkeyButton.getText()), (String)macroField.getSelectedItem(),   repeatField.isSelected(), activeField.isSelected()));
+            if (new Hotkey(hotkeyButton.getText()).isValid())
+            {
+                hotkeyButton.setForeground(Color.BLACK);
+                entries.add(new AssignmentEntry(new Hotkey(hotkeyButton.getText()), (String)macroField.getSelectedItem(),   repeatField.isSelected(), activeField.isSelected()));
+            }
+            else
+            {
+                hotkeyButton.setForeground(Color.RED);
+                hotkeyButton.setText("???");
+                return;
+            }
         }
 
         final ObjectMapper om = new ObjectMapper();
         try (PrintWriter writer = new PrintWriter(Paths.get(RoyBattyConfig.getConfig().getAssignmentsPath()).toFile()))
         {
             writer.write(om.writeValueAsString(entries));
+            RoyBatty.logInfo("Saved macro assignments to "+RoyBattyConfig.getConfig().getAssignmentsPath());
         }
         catch (FileNotFoundException e)
         {
@@ -125,7 +138,10 @@ public class AssignmentsScreen extends JPanel
         JPanel assignmentPanel = new JPanel();
         assignmentPanel.setLayout(new BoxLayout(assignmentPanel, BoxLayout.X_AXIS));
 
-        JButton keyButton = new JButton(hotkey!=null?hotkey.toString():"*");
+        JCheckBox assignedCheckbox = new JCheckBox("active");
+
+
+        JButton keyButton = Styled.newStyledButton(hotkey!=null?hotkey.toString():"*");
         hotkeysMapped.add(keyButton);
         CompletableFuture<Integer> future = new CompletableFuture<>();
         final HotkeyListener listener;
@@ -133,6 +149,10 @@ public class AssignmentsScreen extends JPanel
         listener = new HotkeyListener(activatedCodes, activeCodes, keyButton);
         listener.setFuture(future);
 
+        keyButton.addItemListener(e -> {
+            RoyBatty.getAssignments().unassign(new Hotkey(keyButton.getText()));
+            assignedCheckbox.setSelected(false);
+        });
         keyButton.addActionListener(e ->
         {
             keyButton.setText("???");
@@ -162,26 +182,20 @@ public class AssignmentsScreen extends JPanel
             fileField.setSelectedItem(macroName);
         }
         assignmentPanel.add(fileField);
-        fileField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e)
-            {
-                RoyBatty.getAssignments().setActive(false);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e)
-            {
-                RoyBatty.getAssignments().setActive(true);
-            }
+        fileField.addItemListener(e -> {
+            RoyBatty.getAssignments().unassign(new Hotkey(keyButton.getText()));
+            assignedCheckbox.setSelected(false);
         });
 
         JCheckBox repeatCheckbox = new JCheckBox("repeat");
+        repeatCheckbox.addItemListener(e -> {
+            RoyBatty.getAssignments().unassign(new Hotkey(keyButton.getText()));
+            assignedCheckbox.setSelected(false);
+        });
         repeastsMapped.add(repeatCheckbox);
         repeatCheckbox.setSelected(repeat);
         assignmentPanel.add(repeatCheckbox);
 
-        JCheckBox assignedCheckbox = new JCheckBox("active");
         activesMapped.add(assignedCheckbox);
         assignedCheckbox.setSelected(active);
         assignedCheckbox.addItemListener(e -> {
@@ -202,7 +216,7 @@ public class AssignmentsScreen extends JPanel
 
         assignmentPanel.add(assignedCheckbox);
 
-        JButton removeButton = new JButton("Remove");
+        JButton removeButton = Styled.newStyledButton("Remove");
         removeButton.addActionListener(e ->
         {
             if (assignedCheckbox.isSelected())

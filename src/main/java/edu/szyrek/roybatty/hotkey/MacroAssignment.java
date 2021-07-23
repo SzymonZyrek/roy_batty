@@ -22,6 +22,12 @@ public class MacroAssignment implements Assignment
     }
 
     @Override
+    public String toString()
+    {
+        return this.macro.getName();
+    }
+
+    @Override
     public void run()
     {
         macroPlayer = new Player(this.macro, repeat);

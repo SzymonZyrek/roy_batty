@@ -22,6 +22,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     private Macro macro;
     private Long lastEventTime;
     private ArrayList<MacroEntry> entries;
+    private boolean recordMoves, recordClicks, recordWheel, recordKeys;
 
     public Recorder()
     {
@@ -31,25 +32,33 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         GlobalScreen.addNativeMouseListener(this);
     }
 
-    public void startRecording()
+    public void startRecording(final boolean moves, final boolean clicks, final boolean wheel, final boolean keys)
     {
         this.entries = new ArrayList<>();
-        recording = (true);
-        lastEventTime = System.currentTimeMillis();
+        this.recording = (true);
+        this.lastEventTime = System.currentTimeMillis();
+        this.recordMoves = moves;
+        this.recordClicks = clicks;
+        this.recordWheel = wheel;
+        this.recordKeys = keys;
+    }
+
+    public void startRecording()
+    {
+        startRecording(true, true, true, true);
     }
 
     public void stopRecording()
     {
         macro = new Macro("", entries);
         recording = (false);
-        macro.printMacro();
-        RoyBatty.logInfo("ACTIVE: --UNNAMED MACRO--");
+        RoyBatty.logInfo("Recorded "+entries.size()+ " entries");
     }
 
     @Override
     public void nativeMouseMoved(final NativeMouseEvent e)
     {
-        if (recording)
+        if (recording && recordMoves)
         {
             final Long nowTime = System.currentTimeMillis();
             this.entries.add(new MouseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
@@ -60,7 +69,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeMouseDragged(final NativeMouseEvent e)
     {
-        if (recording)
+        if (recording && recordMoves)
         {
             final Long nowTime = System.currentTimeMillis();
             entries.add(new MouseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
@@ -73,7 +82,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeKeyPressed(final NativeKeyEvent e)
     {
-        if (recording)
+        if (recording && recordKeys)
         {
             final Long nowTime = System.currentTimeMillis();
             int code = KeyMappings.jnativeToAwtCodes(e.getKeyCode());
@@ -88,7 +97,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeKeyReleased(final NativeKeyEvent e)
     {
-        if (recording)
+        if (recording && recordKeys)
         {
             final Long nowTime = System.currentTimeMillis();
             int code = KeyMappings.jnativeToAwtCodes(e.getKeyCode());
@@ -103,7 +112,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeMousePressed(final NativeMouseEvent e)
     {
-        if (recording)
+        if (recording && recordClicks)
         {
             final Long nowTime = System.currentTimeMillis();
             if (e.getButton() == NativeMouseEvent.BUTTON1)
@@ -121,7 +130,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeMouseReleased(final NativeMouseEvent e)
     {
-        if (recording)
+        if (recording && recordClicks)
         {
             final Long nowTime = System.currentTimeMillis();
             if (e.getButton() == NativeMouseEvent.BUTTON1)
@@ -139,7 +148,7 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Override
     public void nativeMouseWheelMoved(final NativeMouseWheelEvent e)
     {
-        if (recording)
+        if (recording && recordWheel)
         {
             final Long nowTime = System.currentTimeMillis();
             entries.add(new ScrollEntry(-e.getWheelRotation(), (int)(nowTime-lastEventTime)));

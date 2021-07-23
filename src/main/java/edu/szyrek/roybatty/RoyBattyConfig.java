@@ -16,7 +16,7 @@ public class RoyBattyConfig
     private int windowWidth = 450;
     @Getter
     @Setter
-    private int windowHeight = 200;
+    private int windowHeight = 600;
     @Getter
     @Setter
     private int windowStartX = 100;
@@ -40,7 +40,7 @@ public class RoyBattyConfig
     private String assignmentsPath = "./assignments.conf";
     @Getter
     @Setter
-    private String macroName = "MyMacro";
+    private String macroName = "Enter macro name";
     @Getter
     @Setter
     private String recLabel = "Rec";

@@ -1,10 +1,12 @@
 package edu.szyrek.roybatty.hotkey;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import edu.szyrek.roybatty.KeyMappings;
 import lombok.Getter;
 
+import java.beans.Transient;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -52,5 +54,19 @@ public class Hotkey
     public int hashCode()
     {
         return Objects.hashCode(this.codes);
+    }
+
+    @JsonIgnore
+    @Transient
+    public boolean isValid()
+    {
+        for (final Integer code: codes)
+        {
+            if (KeyMappings.nativeCodesToText(code) == "")
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

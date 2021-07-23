@@ -37,11 +37,16 @@ public class Assignments  implements NativeKeyListener
     public void assign(final Hotkey hotkey, final Assignment assignment)
     {
         assignmentMap.put(hotkey, assignment);
+        if (MacroAssignment.class.isAssignableFrom(assignment.getClass()))
+        {
+            RoyBatty.logInfo("Assigned ["+hotkey.toString()+"] to "+assignment);
+        }
     }
 
     public void unassign(final Hotkey hotkey)
     {
         assignmentMap.remove(hotkey);
+        RoyBatty.logInfo("Unassigned ["+hotkey.toString()+"]");
     }
 
     @Override public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {/* Unimplemented */}

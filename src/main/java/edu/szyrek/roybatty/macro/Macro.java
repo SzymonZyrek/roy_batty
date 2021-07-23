@@ -27,11 +27,17 @@ public class Macro {
         this.entries = entries;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.name;
+    }
+
     public void printMacro()
     {
         for (final MacroEntry entry: entries)
         {
-            log.error(entry.writeAsString());
+            log.info(entry.writeAsString());
         }
     }
 
@@ -99,8 +105,8 @@ public class Macro {
                 }
             }
             final Macro newMacro = new Macro(fileName, entries);
-            newMacro.printMacro();
-            RoyBatty.logInfo("ACTIVE: "+filePath);
+            //newMacro.printMacro();
+            RoyBatty.logInfo("Loaded macro from " + filePath);
             return newMacro;
         }
         catch (FileNotFoundException ex)

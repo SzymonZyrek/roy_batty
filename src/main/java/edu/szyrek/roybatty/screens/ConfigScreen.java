@@ -6,6 +6,7 @@ import edu.szyrek.roybatty.RoyBatty;
 import edu.szyrek.roybatty.RoyBattyConfig;
 import edu.szyrek.roybatty.hotkey.Hotkey;
 import edu.szyrek.roybatty.hotkey.HotkeyListener;
+import edu.szyrek.roybatty.lookandfeel.Styled;
 import lombok.Setter;
 import org.jnativehook.GlobalScreen;
 
@@ -27,23 +28,23 @@ public class ConfigScreen extends JPanel
     @Setter
     private Set<Integer> activeCodes = new HashSet<>();
 
-    private TextField windowWidthField;
-    private TextField windowHeightField;
-    private TextField windowStartXField;
-    private TextField windowStartYField;
+    private JTextField windowWidthField;
+    private JTextField windowHeightField;
+    private JTextField windowStartXField;
+    private JTextField windowStartYField;
     private JButton recordButtonField;
     private JButton playButtonField;
-    private TextField fileEncodingField;
-    private TextField macrosPathField;
-    private TextField assignmentsPathField;
-    private TextField macroNameField;
-    private TextField recLabelField;
-    private TextField addLabelField;
-    private TextField playLabelField;
-    private TextField stopLabelField;
-    private TextField saveLabelField;
-    private TextField loadLabelField;
-    private TextField cancelLabelField;
+    private JTextField fileEncodingField;
+    private JTextField macrosPathField;
+    private JTextField assignmentsPathField;
+    private JTextField macroNameField;
+    private JTextField recLabelField;
+    private JTextField addLabelField;
+    private JTextField playLabelField;
+    private JTextField stopLabelField;
+    private JTextField saveLabelField;
+    private JTextField loadLabelField;
+    private JTextField cancelLabelField;
 
     private void createGUI()
     {
@@ -52,45 +53,20 @@ public class ConfigScreen extends JPanel
         JLabel warningLabel = new JLabel("NOTE: you have to restart the app after clicking "+RoyBattyConfig.getConfig().getSaveLabel()+" for changes to take effect");
 
 
-        JPanel windowWidthPanel = new JPanel();
-        windowWidthPanel.setLayout(new BoxLayout(windowWidthPanel, BoxLayout.X_AXIS));
-        JLabel windowWidthLabel = new JLabel("Window width");
-        windowWidthPanel.add(windowWidthLabel);
-        windowWidthField = new TextField(Integer.toString(RoyBattyConfig.getConfig().getWindowWidth()));
-        windowWidthPanel.add(windowWidthField);
-        add(windowWidthPanel);
+        windowWidthField = new JTextField(Integer.toString(RoyBattyConfig.getConfig().getWindowWidth()));
+        add(Styled.newLabledField("Window width", windowWidthField));
 
-        JPanel windowHeightPanel = new JPanel();
-        windowHeightPanel.setLayout(new BoxLayout(windowHeightPanel, BoxLayout.X_AXIS));
-        JLabel windoHeightLabel = new JLabel("Window height");
-        windowHeightPanel.add(windoHeightLabel);
-        windowHeightField = new TextField(Integer.toString(RoyBattyConfig.getConfig().getWindowHeight()));
-        windowHeightPanel.add(windowHeightField);
-        add(windowHeightPanel);
+        windowHeightField = new JTextField(Integer.toString(RoyBattyConfig.getConfig().getWindowHeight()));
+        add(Styled.newLabledField("Window height", windowHeightField));
 
-        JPanel windowStartXPanel = new JPanel();
-        windowStartXPanel.setLayout(new BoxLayout(windowStartXPanel, BoxLayout.X_AXIS));
-        JLabel widnowStartXLabel = new JLabel("Window StartX");
-        windowStartXPanel.add(widnowStartXLabel);
-        windowStartXField = new TextField(Integer.toString(RoyBattyConfig.getConfig().getWindowStartX()));
-        windowStartXPanel.add(windowStartXField);
-        add(windowStartXPanel);
+        windowStartXField = new JTextField(Integer.toString(RoyBattyConfig.getConfig().getWindowStartX()));
+        add(Styled.newLabledField("Window StartX", windowStartXField));
 
-        JPanel windowStartYPanel = new JPanel();
-        windowStartYPanel.setLayout(new BoxLayout(windowStartYPanel, BoxLayout.X_AXIS));
-        JLabel widnowStartYLabel = new JLabel("Window StartY");
-        windowStartYPanel.add(widnowStartYLabel);
-        windowStartYField = new TextField(Integer.toString(RoyBattyConfig.getConfig().getWindowStartY()));
-        windowStartYPanel.add(windowStartYField);
-        add(windowStartYPanel);
+        windowStartYField = new JTextField(Integer.toString(RoyBattyConfig.getConfig().getWindowStartY()));
+        add(Styled.newLabledField("Window StartY", windowStartYField));
 
-        JPanel recordButtonPanel = new JPanel();
-        recordButtonPanel.setLayout(new BoxLayout(recordButtonPanel, BoxLayout.X_AXIS));
-        JLabel recordButtonLabel = new JLabel(RoyBattyConfig.getConfig().getRecLabel() + " button");
-        recordButtonPanel.add(recordButtonLabel);
-        recordButtonField = new JButton(new Hotkey(RoyBattyConfig.getConfig().getRecordButton()).toString());
-        recordButtonPanel.add(recordButtonField);
-        add(recordButtonPanel);
+        recordButtonField = Styled.newStyledButton(new Hotkey(RoyBattyConfig.getConfig().getRecordButton()).toString());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getRecLabel() + " button", recordButtonField));
 
         CompletableFuture<Integer> recBtnFuture = new CompletableFuture<>();
         final HotkeyListener recBtnListener;
@@ -119,13 +95,8 @@ public class ConfigScreen extends JPanel
             }).start();
         });
 
-        JPanel playButtonPanel = new JPanel();
-        playButtonPanel.setLayout(new BoxLayout(playButtonPanel, BoxLayout.X_AXIS));
-        JLabel playButtonLabel = new JLabel(RoyBattyConfig.getConfig().getPlayLabel() + " button");
-        playButtonPanel.add(playButtonLabel);
-        playButtonField = new JButton(new Hotkey(RoyBattyConfig.getConfig().getPlayButton()).toString());
-        playButtonPanel.add(playButtonField);
-        add(playButtonPanel);
+        playButtonField = Styled.newStyledButton(new Hotkey(RoyBattyConfig.getConfig().getPlayButton()).toString());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getPlayLabel() + " button", playButtonField));
 
         CompletableFuture<Integer> playBtnFuture = new CompletableFuture<>();
         final HotkeyListener playBtnListener;
@@ -154,98 +125,46 @@ public class ConfigScreen extends JPanel
             }).start();
         });
 
+        fileEncodingField = new JTextField(RoyBattyConfig.getConfig().getFileEncoding());
+        add(Styled.newLabledField("File encoding", fileEncodingField));
 
+        macrosPathField = new JTextField(RoyBattyConfig.getConfig().getMacrosPath());
+        add(Styled.newLabledField("Macro folder", macrosPathField));
 
-        JPanel fileEncodingPanel = new JPanel();
-        fileEncodingPanel.setLayout(new BoxLayout(fileEncodingPanel, BoxLayout.X_AXIS));
-        JLabel fileEncodingLabel = new JLabel("File encoding");
-        fileEncodingPanel.add(fileEncodingLabel);
-        fileEncodingField = new TextField(RoyBattyConfig.getConfig().getFileEncoding());
-        fileEncodingPanel.add(fileEncodingField);
-        add(fileEncodingPanel);
+        assignmentsPathField = new JTextField(RoyBattyConfig.getConfig().getAssignmentsPath());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getAssignmentsPath(), assignmentsPathField));
 
-        JPanel macrosPathPanel = new JPanel();
-        macrosPathPanel.setLayout(new BoxLayout(macrosPathPanel, BoxLayout.X_AXIS));
-        JLabel macrosPathLabel = new JLabel("Macro folder");
-        macrosPathPanel.add(macrosPathLabel);
-        macrosPathField = new TextField(RoyBattyConfig.getConfig().getMacrosPath());
-        macrosPathPanel.add(macrosPathField);
-        add(macrosPathPanel);
+        macroNameField = new JTextField(RoyBattyConfig.getConfig().getMacroName());
+        add(Styled.newLabledField("Macro name", macroNameField));
 
-        JPanel assignmentsPathPanel = new JPanel();
-        assignmentsPathPanel.setLayout(new BoxLayout(assignmentsPathPanel, BoxLayout.X_AXIS));
-        JLabel assignmentsPathLabel = new JLabel("Assignments file");
-        assignmentsPathPanel.add(assignmentsPathLabel);
-        assignmentsPathField = new TextField(RoyBattyConfig.getConfig().getAssignmentsPath());
-        assignmentsPathPanel.add(assignmentsPathField);
-        add(assignmentsPathPanel);
+        recLabelField = new JTextField(RoyBattyConfig.getConfig().getRecLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getRecLabel()+" label", recLabelField));
 
-        JPanel macroNamePanel = new JPanel();
-        macroNamePanel.setLayout(new BoxLayout(macroNamePanel, BoxLayout.X_AXIS));
-        JLabel macroNameLabel = new JLabel("Macro name");
-        macroNamePanel.add(macroNameLabel);
-        macroNameField = new TextField(RoyBattyConfig.getConfig().getMacroName());
-        macroNamePanel.add(macroNameField);
-        add(macroNamePanel);
+        addLabelField = new JTextField(RoyBattyConfig.getConfig().getAddLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getAddLabel()+" label", addLabelField));
 
-        JPanel recLabelPanel = new JPanel();
-        recLabelPanel.setLayout(new BoxLayout(recLabelPanel, BoxLayout.X_AXIS));
-        JLabel recLabelLabel = new JLabel(RoyBattyConfig.getConfig().getRecLabel()+" label");
-        recLabelPanel.add(recLabelLabel);
-        recLabelField = new TextField(RoyBattyConfig.getConfig().getRecLabel());
-        recLabelPanel.add(recLabelField);
-        add(recLabelPanel);
+        playLabelField = new JTextField(RoyBattyConfig.getConfig().getPlayLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getPlayLabel()+" label", playLabelField));
 
-        JPanel addLabelPanel = new JPanel();
-        addLabelPanel.setLayout(new BoxLayout(addLabelPanel, BoxLayout.X_AXIS));
-        JLabel addLabelLabel = new JLabel(RoyBattyConfig.getConfig().getAddLabel()+" label");
-        addLabelPanel.add(addLabelLabel);
-        addLabelField = new TextField(RoyBattyConfig.getConfig().getAddLabel());
-        addLabelPanel.add(addLabelField);
-        add(addLabelPanel);
-        
-        JPanel playLabelPanel = new JPanel();
-        playLabelPanel.setLayout(new BoxLayout(playLabelPanel, BoxLayout.X_AXIS));
-        JLabel playLabelLabel = new JLabel(RoyBattyConfig.getConfig().getPlayLabel()+" label");
-        playLabelPanel.add(playLabelLabel);
-        playLabelField = new TextField(RoyBattyConfig.getConfig().getPlayLabel());
-        playLabelPanel.add(playLabelField);
-        add(playLabelPanel);
+        stopLabelField = new JTextField(RoyBattyConfig.getConfig().getStopLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getStopLabel()+" label", stopLabelField));
 
-        JPanel stopLabelPanel = new JPanel();
-        stopLabelPanel.setLayout(new BoxLayout(stopLabelPanel, BoxLayout.X_AXIS));
-        JLabel stopLabelLabel = new JLabel(RoyBattyConfig.getConfig().getStopLabel()+" label");
-        stopLabelPanel.add(stopLabelLabel);
-        stopLabelField = new TextField(RoyBattyConfig.getConfig().getStopLabel());
-        stopLabelPanel.add(stopLabelField);
-        add(stopLabelPanel);
+        saveLabelField = new JTextField(RoyBattyConfig.getConfig().getSaveLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getSaveLabel()+" label", saveLabelField));
 
-        JPanel saveLabelPanel = new JPanel();
-        saveLabelPanel.setLayout(new BoxLayout(saveLabelPanel, BoxLayout.X_AXIS));
-        JLabel saveLabelLabel = new JLabel(RoyBattyConfig.getConfig().getSaveLabel()+" label");
-        saveLabelPanel.add(saveLabelLabel);
-        saveLabelField = new TextField(RoyBattyConfig.getConfig().getSaveLabel());
-        saveLabelPanel.add(saveLabelField);
-        add(saveLabelPanel);
+        loadLabelField = new JTextField(RoyBattyConfig.getConfig().getLoadLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getLoadLabel()+" label", loadLabelField));
 
-        JPanel loadLabelPanel = new JPanel();
-        loadLabelPanel.setLayout(new BoxLayout(loadLabelPanel, BoxLayout.X_AXIS));
-        JLabel loadLabelLabel = new JLabel(RoyBattyConfig.getConfig().getLoadLabel()+" label");
-        loadLabelPanel.add(loadLabelLabel);
-        loadLabelField = new TextField(RoyBattyConfig.getConfig().getLoadLabel());
-        loadLabelPanel.add(loadLabelField);
-        add(loadLabelPanel);
+        cancelLabelField = new JTextField(RoyBattyConfig.getConfig().getCancelLabel());
+        add(Styled.newLabledField(RoyBattyConfig.getConfig().getCancelLabel()+" label", cancelLabelField));
 
-        JPanel cancelLabelPanel = new JPanel();
-        cancelLabelPanel.setLayout(new BoxLayout(cancelLabelPanel, BoxLayout.X_AXIS));
-        JLabel cancelLabelLabel = new JLabel(RoyBattyConfig.getConfig().getCancelLabel()+" label");
-        cancelLabelPanel.add(cancelLabelLabel);
-        cancelLabelField = new TextField(RoyBattyConfig.getConfig().getCancelLabel());
-        cancelLabelPanel.add(cancelLabelField);
-        add(cancelLabelPanel);
+        add(Styled.getVerticalSeparator());
 
-        add(createSaveButton());
-        add(createReloadButton());
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
+        buttonsPanel.add(createSaveButton());
+        buttonsPanel.add(createReloadButton());
+        add(buttonsPanel);
     }
 
     public ConfigScreen()
@@ -255,9 +174,30 @@ public class ConfigScreen extends JPanel
 
     public JButton createSaveButton()
     {
-        JButton saveButton = new JButton(RoyBattyConfig.getConfig().getSaveLabel());
+        JButton saveButton = Styled.newStyledButton(RoyBattyConfig.getConfig().getSaveLabel());
         saveButton.addActionListener(e ->
         {
+            if (!new Hotkey(recordButtonField.getText()).isValid())
+            {
+                RoyBatty.logError("Wrong record button hotkey");
+                recordButtonField.setForeground(Color.RED);
+                return;
+            }
+            else
+            {
+                recordButtonField.setForeground(Color.BLACK);
+            }
+            if (!new Hotkey(playButtonField.getText()).isValid())
+            {
+                RoyBatty.logError("Wrong play button hotkey");
+                playButtonField.setForeground(Color.RED);
+                return;
+            }
+            else
+            {
+                playButtonField.setForeground(Color.BLACK);
+            }
+
             RoyBattyConfig.getConfig().setWindowHeight(Integer.parseInt(windowHeightField.getText()));
             RoyBattyConfig.getConfig().setWindowWidth(Integer.parseInt(windowWidthField.getText()));
             RoyBattyConfig.getConfig().setWindowStartX(Integer.parseInt(windowStartXField.getText()));
@@ -286,6 +226,7 @@ public class ConfigScreen extends JPanel
                 }
                 try (PrintWriter out = new PrintWriter(RoyBatty.CONFIG_PATH)) {
                     out.println(om.writeValueAsString(RoyBattyConfig.getConfig()));
+                    RoyBatty.logInfo("Saved configuration to "+RoyBatty.CONFIG_PATH);
                 }
             }
             catch (IOException ex)
@@ -293,13 +234,12 @@ public class ConfigScreen extends JPanel
                 RoyBatty.logException("Error while saving configuration at "+RoyBatty.CONFIG_PATH, ex);
             }
         });
-        saveButton.setSize(158, 25);
         return saveButton;
     }
 
     public JButton createReloadButton()
     {
-        JButton reloadButton = new JButton(RoyBattyConfig.getConfig().getCancelLabel());
+        JButton reloadButton = Styled.newStyledButton(RoyBattyConfig.getConfig().getCancelLabel());
         reloadButton.addActionListener(e ->
         {
             RoyBattyConfig.reload();
@@ -308,7 +248,6 @@ public class ConfigScreen extends JPanel
             repaint();
             revalidate();
         });
-        reloadButton.setSize(158, 25);
         return reloadButton;
     }
 }
