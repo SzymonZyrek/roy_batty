@@ -22,10 +22,6 @@ https://bitbucket.org/Mexorsu/roy_batty/downloads/roy_batty.jar
 	
 ## Running:
 
-1. double click roy_batty.jar
-2. from command line, run:
-
-
     java -jar roy_batty.jar [-c <config_override_path>]
 
 ## Usage:
