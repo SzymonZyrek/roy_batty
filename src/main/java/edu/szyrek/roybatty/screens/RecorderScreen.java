@@ -29,6 +29,7 @@ public class RecorderScreen extends JPanel
     private JTextField fileName;
 
     JCheckBox recordMovement = new JCheckBox("moves");
+    JCheckBox recordRelative = new JCheckBox("relative");
     JCheckBox recordClicks = new JCheckBox("clicks");
     JCheckBox recordWheel = new JCheckBox("wheel");
     JCheckBox recordKeys = new JCheckBox("keys");
@@ -160,6 +161,7 @@ public class RecorderScreen extends JPanel
         JPanel theCheckboxesPanel = new JPanel();
         theCheckboxesPanel.setLayout(new BoxLayout(theCheckboxesPanel, BoxLayout.Y_AXIS));
         theCheckboxesPanel.add(recordMovement);
+        theCheckboxesPanel.add(recordRelative);
         theCheckboxesPanel.add(recordClicks);
         theCheckboxesPanel.add(recordWheel);
         theCheckboxesPanel.add(recordKeys);
@@ -196,7 +198,7 @@ public class RecorderScreen extends JPanel
         {
             macroPlayer = null;
             recordButton.setText(RoyBattyConfig.getConfig().getStopLabel());
-            RoyBatty.getMacroRecorder().startRecording(recordMovement.isSelected(), recordClicks.isSelected(), recordWheel.isSelected(), recordKeys.isSelected());
+            RoyBatty.getMacroRecorder().startRecording(recordMovement.isSelected(), recordClicks.isSelected(), recordWheel.isSelected(), recordKeys.isSelected(), recordRelative.isSelected());
         }
     }
 

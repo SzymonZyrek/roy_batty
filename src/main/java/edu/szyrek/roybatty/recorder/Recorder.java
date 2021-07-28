@@ -12,6 +12,7 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Recorder implements NativeKeyListener, NativeMouseListener, NativeMouseWheelListener, NativeMouseMotionListener {
@@ -21,8 +22,9 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
     @Setter
     private Macro macro;
     private Long lastEventTime;
+    private Point lastPosition;
     private ArrayList<MacroEntry> entries;
-    private boolean recordMoves, recordClicks, recordWheel, recordKeys;
+    private boolean recordMoves, recordClicks, recordWheel, recordKeys, relative;
 
     public Recorder()
     {
@@ -32,20 +34,22 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         GlobalScreen.addNativeMouseListener(this);
     }
 
-    public void startRecording(final boolean moves, final boolean clicks, final boolean wheel, final boolean keys)
+    public void startRecording(final boolean moves, final boolean clicks, final boolean wheel, final boolean keys, final boolean relative)
     {
         this.entries = new ArrayList<>();
         this.recording = (true);
         this.lastEventTime = System.currentTimeMillis();
+        this.lastPosition = MouseInfo.getPointerInfo().getLocation();
         this.recordMoves = moves;
         this.recordClicks = clicks;
         this.recordWheel = wheel;
         this.recordKeys = keys;
+        this.relative = relative;
     }
 
     public void startRecording()
     {
-        startRecording(true, true, true, true);
+        startRecording(true, true, true, true, false);
     }
 
     public void stopRecording()
@@ -61,7 +65,24 @@ public class Recorder implements NativeKeyListener, NativeMouseListener, NativeM
         if (recording && recordMoves)
         {
             final Long nowTime = System.currentTimeMillis();
-            this.entries.add(new MouseEntry(e.getX(), e.getY(), (int)(nowTime-lastEventTime)));
+            int x,y;
+            final MouseEntry entry;
+            final Point current = MouseInfo.getPointerInfo().getLocation();
+
+            if (relative)
+            {
+                x = (current.x - lastPosition.x);
+                y = (current.y - lastPosition.y);
+                lastPosition = MouseInfo.getPointerInfo().getLocation();
+                entry = new RelativeMouseEntry(x, y, (int)(nowTime-lastEventTime));
+            }
+            else
+            {
+                x = current.x;
+                y = current.y;
+                entry = new MouseEntry(x, y, (int)(nowTime-lastEventTime));
+            }
+            this.entries.add(entry);
             lastEventTime = nowTime;
         }
     }
