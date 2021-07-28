@@ -87,8 +87,8 @@ public class KeyMappings {
         _awtToJnativeCodes.put(KeyEvent.VK_KP_DOWN, NativeKeyEvent.VC_DOWN);
         _awtToJnativeCodes.put(KeyEvent.VK_KP_LEFT, NativeKeyEvent.VC_LEFT);
         _awtToJnativeCodes.put(KeyEvent.VK_KP_RIGHT, NativeKeyEvent.VC_RIGHT);
-        //jnativeTo_awtCodes.put(KeyEvent.VK_LEFT_PARENTHESIS, NativeKeyEvent.VC_OPEN_BRACKET);
-        //jnativeTo_awtCodes.put(KeyEvent.VK_RIGHT_PARENTHESIS, NativeKeyEvent.VC_CLOSE_BRACKET);
+        _awtToJnativeCodes.put(KeyEvent.VK_OPEN_BRACKET, NativeKeyEvent.VC_OPEN_BRACKET);
+        _awtToJnativeCodes.put(KeyEvent.VK_CLOSE_BRACKET, NativeKeyEvent.VC_CLOSE_BRACKET);
         _awtToJnativeCodes.put(KeyEvent.VK_PAGE_UP, NativeKeyEvent.VC_PAGE_UP);
         _awtToJnativeCodes.put(KeyEvent.VK_PAGE_DOWN, NativeKeyEvent.VC_PAGE_DOWN);
         _awtToJnativeCodes.put(KeyEvent.VK_CAPS_LOCK, NativeKeyEvent.VC_CAPS_LOCK);
@@ -96,13 +96,19 @@ public class KeyMappings {
         _awtToJnativeCodes.put(KeyEvent.VK_NUM_LOCK, NativeKeyEvent.VC_NUM_LOCK);
         _awtToJnativeCodes.put(KeyEvent.VK_EQUALS, NativeKeyEvent.VC_EQUALS);
         _awtToJnativeCodes.put(KeyEvent.VK_MINUS, NativeKeyEvent.VC_MINUS);
-        //jnativeTo_awtCodes.put(KeyEvent.VK_PLUS, NativeKeyEvent.VC_);
-        //jnativeTo_awtCodes.put(KeyEvent.VK_ASTERISK, NativeKeyEvent.VC_);
         _awtToJnativeCodes.put(KeyEvent.VK_TAB, NativeKeyEvent.VC_TAB);
+        _awtToJnativeCodes.put(KeyEvent.VK_INSERT, NativeKeyEvent.VC_INSERT);
+        _awtToJnativeCodes.put(KeyEvent.VK_PERIOD, NativeKeyEvent.VC_PERIOD);
+        _awtToJnativeCodes.put(KeyEvent.VK_PAUSE, NativeKeyEvent.VC_PAUSE);
+        _awtToJnativeCodes.put(KeyEvent.VK_SEPARATOR, NativeKeyEvent.VC_SEPARATOR);
+        _awtToJnativeCodes.put(KeyEvent.VK_PRINTSCREEN, NativeKeyEvent.VC_PRINTSCREEN);
+
         _awtToJnativeCodes.put(KeyEvent.VK_SHIFT, NativeKeyEvent.VC_SHIFT);
         _awtToJnativeCodes.put(KeyEvent.VK_ALT, NativeKeyEvent.VC_ALT);
+        _awtToJnativeCodes.put(KeyEvent.VK_ALT_GRAPH, NativeKeyEvent.VC_ALT);
+        _awtToJnativeCodes.put(KeyEvent.VK_META, NativeKeyEvent.VC_META);
         _awtToJnativeCodes.put(KeyEvent.VK_CONTROL, NativeKeyEvent.VC_CONTROL);
-        _awtToJnativeCodes.put(KeyEvent.VK_INSERT, NativeKeyEvent.VC_INSERT);
+        _awtToJnativeCodes.put(KeyEvent.VK_META, NativeKeyEvent.VC_META);
 
         _awtToJnativeCodes.put(KeyEvent.VK_0, NativeKeyEvent.VC_0);
         _awtToJnativeCodes.put(KeyEvent.VK_1, NativeKeyEvent.VC_1);
@@ -155,12 +161,61 @@ public class KeyMappings {
         _awtToJnativeCodes.put(KeyEvent.VK_F11, NativeKeyEvent.VC_F11);
         _awtToJnativeCodes.put(KeyEvent.VK_F12, NativeKeyEvent.VC_F12);
 
+        _awtToJnativeCodes.put(KeyEvent.VK_F13, NativeKeyEvent.VC_F13);
+        _awtToJnativeCodes.put(KeyEvent.VK_F14, NativeKeyEvent.VC_F14);
+        _awtToJnativeCodes.put(KeyEvent.VK_F15, NativeKeyEvent.VC_F15);
+        _awtToJnativeCodes.put(KeyEvent.VK_F16, NativeKeyEvent.VC_F16);
+        _awtToJnativeCodes.put(KeyEvent.VK_F17, NativeKeyEvent.VC_F17);
+        _awtToJnativeCodes.put(KeyEvent.VK_F18, NativeKeyEvent.VC_F18);
+        _awtToJnativeCodes.put(KeyEvent.VK_F19, NativeKeyEvent.VC_F19);
+        _awtToJnativeCodes.put(KeyEvent.VK_F20, NativeKeyEvent.VC_F20);
+        _awtToJnativeCodes.put(KeyEvent.VK_F21, NativeKeyEvent.VC_F21);
+        _awtToJnativeCodes.put(KeyEvent.VK_F22, NativeKeyEvent.VC_F22);
+        _awtToJnativeCodes.put(KeyEvent.VK_F23, NativeKeyEvent.VC_F23);
+        _awtToJnativeCodes.put(KeyEvent.VK_F24, NativeKeyEvent.VC_F24);
+
+        _awtToJnativeCodes.put(KeyEvent.VK_ESCAPE, NativeKeyEvent.VC_ESCAPE);
+
+        _awtToJnativeCodes.put(KeyEvent.VK_EQUALS, 3597);
+        _awtToJnativeCodes.put(KeyEvent.VK_ASTERISK, 3639);
+        _awtToJnativeCodes.put(KeyEvent.VK_SUBTRACT, 3658);
+        _awtToJnativeCodes.put(KeyEvent.VK_ADD, 3662);
+        _awtToJnativeCodes.put(KeyEvent.VK_SHIFT, 3638);
+
         for (final Integer key: _awtToJnativeCodes.keySet())
         {
             Integer value = _awtToJnativeCodes.get(key);
             _jnativeToAwtCodes.put(value, key);
-            _textToJnativeCodes.put(NativeKeyEvent.getKeyText(value), value);
-            _nativeCodesToText.put(value, NativeKeyEvent.getKeyText(value));
+            if (value == 3597)
+            {
+                _textToJnativeCodes.put("Num=", value);
+                _nativeCodesToText.put(value, "Num=");
+            }
+            else if (value == 3639)
+            {
+                _textToJnativeCodes.put("Num*", value);
+                _nativeCodesToText.put(value, "Num*");
+            }
+            else if (value == 3658)
+            {
+                _textToJnativeCodes.put("Num-", value);
+                _nativeCodesToText.put(value, "Num-");
+            }
+            else if (value == 3662)
+            {
+                _textToJnativeCodes.put("Num-", value);
+                _nativeCodesToText.put(value, "Num-");
+            }
+            else if (value == 3638)
+            {
+                _textToJnativeCodes.put("RShift", value);
+                _nativeCodesToText.put(value, "RShift");
+            }
+            else
+            {
+                _textToJnativeCodes.put(NativeKeyEvent.getKeyText(value), value);
+                _nativeCodesToText.put(value, NativeKeyEvent.getKeyText(value));
+            }
         }
     }
 }
