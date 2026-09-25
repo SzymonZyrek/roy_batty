@@ -1,26 +1,41 @@
-# mouse/keyboard macro recorder/player and hotkey mapper
+# Roy Batty
 
-## Features:
-- recording keyboard/mouse macros
-- saving/loading macros from files
-- mapping macros to hotkey combinations
+> **Historical desktop-automation project**
+>
+> A Java utility for recording and replaying keyboard/mouse macros and binding them to hotkeys.
 
-## Building:
+## What it does
 
-    mvn clean install
-	
-## Running:
+The application supports:
 
-    java -jar target/roy_batty.jar
+- recording keyboard and mouse actions;
+- replaying recorded macros;
+- saving and loading macros from files;
+- assigning macros to keyboard shortcuts;
+- stopping a running macro by triggering its hotkey again.
 
-## Usage:
+This was a practical automation experiment rather than a framework exercise: build a small end-user tool around global input events, persistence and replay.
 
-- record some macros on "Recording" tab
-- save them using "Save" button
-- test your macros using "Play" functionality
-- assign your macros to key combinations on "Hotkeys" tab
-- use active hotkeys to replay macros on demand
+## Build
 
-## Tips:
+```bash
+mvn clean install
+```
 
-- re-triggering hotkey combination stops running macro
+## Run
+
+```bash
+java -jar target/roy_batty.jar
+```
+
+## Typical workflow
+
+1. Record a macro in the **Recording** tab.
+2. Save it.
+3. Test it with **Play**.
+4. Assign it to a hotkey.
+5. Trigger the hotkey to replay it on demand.
+
+## Status
+
+Historical project, preserved as part of my older desktop/tooling experiments. It is not maintained for current operating systems or Java versions.
